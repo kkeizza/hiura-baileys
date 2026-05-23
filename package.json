@@ -1,6 +1,6 @@
 {
     "name": "hiura-baileys",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "WhatsApp Web API — Hiura Baileys by Nimzz. Full LID+JID support, all buttons, dual CJS/ESM.",
     "publishConfig": {
         "access": "public"
