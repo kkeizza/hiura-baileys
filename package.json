@@ -1,34 +1,25 @@
 {
     "name": "hiura-baileys",
     "type": "module",
-    "version": "1.1.2",
-    "description": "WhatsApp Web API — Hiura Baileys by Nimzz. Full LID+JID, all buttons, dual CJS/ESM.",
+    "version": "1.1.0-merged",
+    "description": "WhatsApp Web API — Hiura Baileys by Nimzz. Full LID+JID, all buttons, interactive messages, rich messages, album, latex, and more.",
     "keywords": [
-        "automation",
-        "baileys",
-        "baileys-fork",
-        "baileys-mod",
+        "whatsapp",
         "hiura",
         "hiura-baileys",
-        "hiura-whatsapp",
-        "interactive-messages",
-        "js-whatsapp",
-        "multi-device",
         "nimzz",
-        "whatsapp",
-        "whatsapp-api",
-        "whatsapp-bot",
-        "whatsapp-chat",
-        "whatsapp-group",
-        "whatsapp-web"
+        "baileys",
+        "bot",
+        "lid",
+        "button",
+        "interactive",
+        "album",
+        "rich-messages"
     ],
     "homepage": "https://github.com/Nimzz-pemboy/hiura-baileys",
     "repository": {
         "type": "git",
         "url": "https://github.com/Nimzz-pemboy/hiura-baileys.git"
-    },
-    "bugs": {
-        "url": "https://github.com/Nimzz-pemboy/hiura-baileys/issues"
     },
     "license": "MIT",
     "author": "Nimzz <https://github.com/Nimzz-pemboy>",
@@ -46,11 +37,6 @@
                 "default": "./index.cjs"
             },
             "default": "./lib/index.js"
-        },
-        "./MessageBuilder": {
-            "import": "./lib/MessageBuilder.js",
-            "require": "./MessageBuilder.cjs",
-            "default": "./lib/MessageBuilder.js"
         }
     },
     "files": [
@@ -59,7 +45,6 @@
         "engine-requirements.js",
         "index.cjs",
         "index.d.ts",
-        "MessageBuilder.cjs",
         "README.md"
     ],
     "dependencies": {

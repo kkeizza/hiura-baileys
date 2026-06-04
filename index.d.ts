@@ -3,7 +3,7 @@
  *
  * Destructure dan langsung pakai, tanpa await ready:
  *
- *   const { makeWASocket, useMultiFileAuthState, Browsers } = require('@ryuhan/baileys');
+ *   const { makeWASocket, useMultiFileAuthState, Browsers } = require('hiura-baileys');
  *
  *   async function start() {
  *     const { state, saveCreds } = await useMultiFileAuthState('./auth');
