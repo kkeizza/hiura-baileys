@@ -1,7 +1,7 @@
 {
     "name": "hiura-baileys",
     "type": "module",
-    "version": "1.1.0-merged",
+    "version": "1.1.1-merged",
     "description": "WhatsApp Web API — Hiura Baileys by Nimzz. Full LID+JID, all buttons, interactive messages, rich messages, album, latex, and more.",
     "keywords": [
         "whatsapp",
