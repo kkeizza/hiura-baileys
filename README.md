@@ -1392,7 +1392,7 @@ async function isOnWhatsApp(number) {
 
 ## 📜 Changelog
 
-### v2.1 (Latest)
+### V1.2.1 (Latest)
 - Tambah `Hiura Engine` — interactive, album, payment, product, event, group story
 - Tambah `sendTable` / `sendTableV2` / `sendList`
 - Tambah `sendCodeBlock` / `sendCodeBlockV2`
@@ -1406,7 +1406,7 @@ async function isOnWhatsApp(number) {
 - Fix carousel dengan `additionalNodes` biz node
 - Dual CJS/ESM stabil
 
-### v2.0
+### v1.2.1
 - Base dari blckrose-baileys 2.0.7
 - Full LID + JID support
 - libsignal dari whiskeysockets (paling stabil)
