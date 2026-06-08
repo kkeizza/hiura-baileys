@@ -7,27 +7,24 @@
 [![forks](https://img.shields.io/github/forks/Nimzz-pemboy/hiura-baileys?color=10b981&style=for-the-badge&logo=github)](https://github.com/Nimzz-pemboy/hiura-baileys/network)
 [![license](https://img.shields.io/github/license/Nimzz-pemboy/hiura-baileys?color=ec4899&style=for-the-badge)](LICENSE)
 [![node](https://img.shields.io/badge/node-%3E%3D20-brightgreen?style=for-the-badge&logo=node.js)](https://nodejs.org)
-[![version](https://img.shields.io/badge/version-2.1-blue?style=for-the-badge)](https://github.com/Nimzz-pemboy/hiura-baileys)
+[![version](https://img.shields.io/badge/version-1.4.0-blue?style=for-the-badge)](https://github.com/Nimzz-pemboy/hiura-baileys)
 
 **WhatsApp Web API for Node.js — by [Nimzz](https://github.com/Nimzz-pemboy)**
 
-*Fork & enhancement dari blckrose-baileys dengan fitur LID, button lengkap, rich messages, album, latex, dan Signal Protocol terstabil*
+*Fork & enhancement dari blckrose-baileys dengan fitur LID, button lengkap, rich messages, album, latex, ephemeral auto-detect, dan Signal Protocol terstabil*
 
 </div>
 
 ---
 
-## 🙏 Special Thanks & Credits
-
-> Proyek ini tidak akan ada tanpa kontribusi luar biasa dari:
+## 🙏 Credits
 
 | | Project | Kontribusi |
 |---|---------|-----------|
-| 🖤 | [**blckrose-baileys**](https://www.npmjs.com/package/@blckrose/baileys) **(@Blckrose0)** | **Base utama** — LID/JID mapping, session handling, CJS wrapper |
-| ⚡ | [**whiskeysockets/libsignal-node**](https://github.com/whiskeysockets/libsignal-node) | Signal Protocol (E2E enkripsi) |
+| 🖤 | [**blckrose-baileys**](https://www.npmjs.com/package/@blckrose/baileys) | Base utama — LID/JID mapping, session, CJS wrapper |
+| ⚡ | [**whiskeysockets/libsignal-node**](https://github.com/whiskeysockets/libsignal-node) | Signal Protocol (E2E encryption) |
 | 🔥 | [**@whiskeysockets/baileys**](https://github.com/WhiskeySockets/Baileys) | Baileys core original |
-
-**Makasih besar buat @Blckrose0 atas izin dan base yang luar biasa! 🫶**
+| 🌸 | [**itsukichan/baileys**](https://github.com/Itsukichann/Baileys) | Referensi stickerPack, orderMessage, ptv, ephemeral |
 
 ---
 
@@ -35,68 +32,26 @@
 
 - [✨ Fitur](#-fitur)
 - [📦 Install](#-install)
+- [🚀 Connection — index.js](#-connection--indexjs)
+  - [QR Code](#qr-code)
+  - [Pairing Code](#pairing-code)
+  - [Default Pairing NIMZ1234](#default-pairing-nimz1234)
 - [⚙️ Konfigurasi Socket](#️-konfigurasi-socket)
-- [🚀 Quick Start](#-quick-start)
-  - [ESM (import)](#esm-import)
-  - [Pairing Code (Tanpa QR)](#pairing-code-tanpa-qr)
-- [🌐 Browser & Platform](#-browser--platform)
-- [💬 Kirim Pesan Dasar](#-kirim-pesan-dasar)
-  - [Teks](#teks)
-  - [Gambar](#gambar)
-  - [Video](#video)
-  - [Audio & Voice Note](#audio--voice-note)
-  - [Dokumen](#dokumen)
-  - [Sticker](#sticker)
-  - [Lokasi](#lokasi)
-  - [Kontak](#kontak)
-  - [Reaction](#reaction)
-  - [Poll](#poll)
-- [🔘 Interactive Message (Raw)](#-interactive-message-raw)
-  - [Quick Reply Button](#quick-reply-button)
-  - [URL Button](#url-button)
-  - [Call Button](#call-button)
-  - [Copy Kode Button](#copy-kode-button)
-  - [Dropdown / single_select](#dropdown--single_select)
-  - [Send Location Button](#send-location-button)
-  - [Address Button](#address-button)
-  - [Reminder Button](#reminder-button)
-  - [Flow Button](#flow-button)
-  - [Mix Semua Button + Gambar](#mix-semua-button--gambar)
-  - [Carousel](#carousel)
-  - [External Ad Reply](#external-ad-reply)
+- [💬 Pesan Dasar](#-pesan-dasar)
+- [🔘 Interactive Message](#-interactive-message)
+- [🎠 Carousel](#-carousel)
 - [🤖 Hiura Engine](#-hiura-engine)
-  - [Interactive Buttons](#interactive-buttons-1)
-  - [Album](#album-multi-image--multi-video)
-  - [Payment Message](#payment-message)
-  - [Product Message](#product-message)
-  - [Event Message](#event-message)
-  - [Group Story](#group-story)
-  - [Status Mention](#status-mention)
 - [📊 Rich Messages](#-rich-messages)
-  - [sendTable](#sendtable--kirim-tabel)
-  - [sendTableV2](#sendtablev2--tabel-format-unified)
-  - [sendList](#sendlist--kirim-list)
-  - [sendCodeBlock](#sendcodeblock--kirim-code-block)
-  - [sendCodeBlockV2](#sendcodeblockv2--code-block-unified-style)
-  - [sendLink](#sendlink--kirim-rich-link)
-  - [sendLinkV2](#sendlinkv2--rich-link-unified-style)
-  - [sendLatex](#sendlatex--formula-matematika)
-  - [sendLatexImage](#sendlateximage--latex-sebagai-gambar)
-  - [sendLatexInlineImage](#sendlatexinlineimage--latex-inline-dalam-teks)
-  - [sendRichMessage](#sendrichmessage--gabungan-banyak-tipe)
-  - [sendUnifiedResponse](#sendunifiedresponse--unified-response-meta-ai-style)
 - [🏷️ JID Utils](#️-jid-utils)
-- [🔍 Resolve LID → JID](#-resolve-lid--jid)
 - [👥 Group Management](#-group-management)
-- [📡 Event Handling](#-event-handling)
-- [💾 Store (In-Memory)](#-store-in-memory)
+- [📡 Events](#-events)
 - [🔔 Status / Story](#-status--story)
 - [📰 Newsletter](#-newsletter)
-- [🏘️ Community](#️-community)
+- [💾 Store](#-store)
 - [🔐 Auth & Session](#-auth--session)
-- [🛠️ Utility Functions](#️-utility-functions)
-- [❓ FAQ & Troubleshooting](#-faq--troubleshooting)
-- [🤝 Contributing](#-contributing)
+- [🛠️ Utilities](#️-utilities)
+- [❓ FAQ](#-faq)
+- [📜 Changelog](#-changelog)
 
 ---
 
@@ -105,22 +60,35 @@
 | Fitur | Status | Keterangan |
 |-------|--------|------------|
 | Full LID + JID support | ✅ | Tag/mention di grup LID beneran jalan |
-| All button types | ✅ | quick_reply, cta_url, cta_call, cta_copy, single_select, flow, dll |
+| All button types | ✅ | quick_reply, cta_url, cta_call, cta_copy, single_select, flow, send_location, dll |
 | Dual CJS/ESM | ✅ | `require()` dan `import` sama-sama jalan |
-| Auto button compat | ✅ | listMessage/buttonsMessage/templateMessage → interactiveMessage di grup |
-| libsignal ori dari whiskeysockets | ✅ | Session paling stabil |
-| resolveJid | ✅ | Resolve LID → @s.whatsapp.net |
-| Carousel message | ✅ | Multi-card swipeable |
-| AI Rich Response | ✅ | Format pesan ala Meta AI (teks, code, tabel, gambar) |
-| Pairing Code | ✅ | Login tanpa QR |
-| Multi-device | ✅ | Full multi-device support |
+| Auto button compat | ✅ | buttonsMessage/templateMessage → interactiveMessage di grup |
+| libsignal ori | ✅ | Session paling stabil |
+| normalizeMentionJid | ✅ | Auto fix LID/@lid → @s.whatsapp.net |
+| resolveJid / resolveJids | ✅ | Resolve LID bulk |
+| Carousel message | ✅ | Multi-card swipeable dengan gambar/video |
+| Album message | ✅ | Multi-foto + multi-video sekaligus |
+| AI Rich Response | ✅ | Format ala Meta AI: teks, code, tabel, gambar |
+| Pairing Code | ✅ | Login tanpa QR, default NIMZ1234 |
+| Multi-device | ✅ | Full support |
 | Newsletter | ✅ | Buat & kelola newsletter WA |
 | Community | ✅ | Manajemen komunitas WA |
 | In-memory store | ✅ | Simpan chat history & contact di RAM |
-| LRU cache LID mapping | ✅ | TTL 3 hari, auto-purge |
 | Hiura Engine | ✅ | Interactive, album, payment, product, event, group story |
 | Rich Messages | ✅ | sendTable, sendCodeBlock, sendLatex, sendRichMessage, dll |
-| Source Maps | ✅ | Full .js.map untuk debugging |
+| stickerPackMessage | ✅ | Kirim sticker pack custom |
+| ptvMessage | ✅ | Video circle (PTV) |
+| orderMessage | ✅ | Pesan order WA |
+| keepInChatMessage | ✅ | Keep/bookmark pesan |
+| paymentInviteMessage | ✅ | Undangan bayar |
+| scheduledCallCreationMessage | ✅ | Jadwal panggilan |
+| groupInviteMessage | ✅ | Undang ke grup dengan thumbnail |
+| adminInviteMessage | ✅ | Undang admin newsletter |
+| shopMessage | ✅ | Pesan toko storefront |
+| collectionMessage | ✅ | Koleksi produk |
+| getEphemeralGroup | ✅ | Fetch durasi ephemeral grup |
+| Auto ephemeral detect | ✅ | sendMessage otomatis ikut ephemeral grup |
+| Source Maps | ✅ | Full `.js.map` untuk debugging |
 
 ---
 
@@ -130,11 +98,11 @@
 npm install hiura-baileys
 # atau
 yarn add hiura-baileys
-# atau
-pnpm add hiura-baileys
+# atau dari file lokal
+npm install ./hiura-baileys-1.4.0.tgz
 ```
 
-**Peer dependencies (opsional, tapi disarankan):**
+**Peer dependencies (opsional tapi disarankan):**
 
 ```bash
 npm install sharp axios pino
@@ -146,15 +114,247 @@ npm install sharp axios pino
 
 ---
 
+## 🚀 Connection — index.js
+
+### QR Code
+
+```js
+import makeWASocket, {
+    useMultiFileAuthState,
+    DisconnectReason,
+    makeCacheableSignalKeyStore,
+    makeInMemoryStore,
+    fetchLatestBaileysVersion
+} from 'hiura-baileys';
+import { Boom } from '@hapi/boom';
+import pino from 'pino';
+import { readFileSync } from 'fs';
+
+const logger = pino({ level: 'silent' });
+const store = makeInMemoryStore({});
+
+store.readFromFile('./data/store.json');
+setInterval(() => store.writeToFile('./data/store.json'), 10_000);
+
+async function startBot() {
+    const { state, saveCreds } = await useMultiFileAuthState('./sessions');
+    const { version } = await fetchLatestBaileysVersion();
+
+    const sock = makeWASocket({
+        version,
+        auth: {
+            creds: state.creds,
+            keys: makeCacheableSignalKeyStore(state.keys, logger)
+        },
+        printQRInTerminal: true,
+        logger,
+        browser: ['NimzzBot', 'Chrome', '1.0.0'],
+        connectTimeoutMs: 20000,
+        keepAliveIntervalMs: 30000,
+        markOnlineOnConnect: true,
+        syncFullHistory: false,
+        generateHighQualityLinkPreview: false,
+        getMessage: async (key) => store.loadMessage(key.remoteJid, key.id)?.message,
+        cachedGroupMetadata: async (jid) => store.groupMetadata[jid],
+    });
+
+    store.bind(sock.ev);
+    sock.ev.on('creds.update', saveCreds);
+
+    sock.ev.on('connection.update', ({ connection, lastDisconnect }) => {
+        if (connection === 'close') {
+            const shouldReconnect = new Boom(lastDisconnect?.error)?.output?.statusCode !== DisconnectReason.loggedOut;
+            if (shouldReconnect) startBot();
+        } else if (connection === 'open') {
+            console.log('Bot online!');
+        }
+    });
+
+    sock.ev.on('messages.upsert', async ({ messages, type }) => {
+        if (type !== 'notify') return;
+        for (const m of messages) {
+            if (!m.message) continue;
+            const jid = m.key.remoteJid;
+            const text = m.message?.conversation || m.message?.extendedTextMessage?.text || '';
+            if (text === '.ping') {
+                await sock.sendMessage(jid, { text: 'Pong! 🏓' }, { quoted: m });
+            }
+        }
+    });
+
+    return sock;
+}
+
+startBot();
+```
+
+---
+
+### Pairing Code
+
+```js
+import makeWASocket, {
+    useMultiFileAuthState,
+    DisconnectReason,
+    makeCacheableSignalKeyStore,
+    makeInMemoryStore,
+    fetchLatestBaileysVersion
+} from 'hiura-baileys';
+import { Boom } from '@hapi/boom';
+import pino from 'pino';
+import readline from 'readline';
+
+const logger = pino({ level: 'silent' });
+const store = makeInMemoryStore({});
+
+store.readFromFile('./data/store.json');
+setInterval(() => store.writeToFile('./data/store.json'), 10_000);
+
+async function startBot() {
+    const { state, saveCreds } = await useMultiFileAuthState('./sessions');
+    const { version } = await fetchLatestBaileysVersion();
+
+    const sock = makeWASocket({
+        version,
+        auth: {
+            creds: state.creds,
+            keys: makeCacheableSignalKeyStore(state.keys, logger)
+        },
+        printQRInTerminal: false,
+        logger,
+        browser: ['NimzzBot', 'Chrome', '1.0.0'],
+        connectTimeoutMs: 20000,
+        keepAliveIntervalMs: 30000,
+        markOnlineOnConnect: true,
+        syncFullHistory: false,
+        getMessage: async (key) => store.loadMessage(key.remoteJid, key.id)?.message,
+        cachedGroupMetadata: async (jid) => store.groupMetadata[jid],
+    });
+
+    store.bind(sock.ev);
+    sock.ev.on('creds.update', saveCreds);
+
+    if (!sock.authState.creds.registered) {
+        const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+        rl.question('Masukkan nomor WA (contoh: 6281234567890): ', async (num) => {
+            rl.close();
+            const phoneNumber = num.replace(/[^0-9]/g, '');
+            const code = await sock.requestPairingCode(phoneNumber);
+            console.log(`Pairing Code: ${code?.match(/.{1,4}/g)?.join('-')}`);
+        });
+    }
+
+    sock.ev.on('connection.update', ({ connection, lastDisconnect }) => {
+        if (connection === 'close') {
+            const shouldReconnect = new Boom(lastDisconnect?.error)?.output?.statusCode !== DisconnectReason.loggedOut;
+            if (shouldReconnect) startBot();
+        } else if (connection === 'open') {
+            console.log('Bot online!');
+        }
+    });
+
+    sock.ev.on('messages.upsert', async ({ messages, type }) => {
+        if (type !== 'notify') return;
+        for (const m of messages) {
+            if (!m.message) continue;
+            const jid = m.key.remoteJid;
+            const text = m.message?.conversation || m.message?.extendedTextMessage?.text || '';
+            if (text === '.ping') {
+                await sock.sendMessage(jid, { text: 'Pong! 🏓' }, { quoted: m });
+            }
+        }
+    });
+
+    return sock;
+}
+
+startBot();
+```
+
+---
+
+### Default Pairing NIMZ1234
+
+Untuk bot yang pakai pairing code dengan kode default tanpa input user:
+
+```js
+import makeWASocket, {
+    useMultiFileAuthState,
+    DisconnectReason,
+    makeCacheableSignalKeyStore,
+    fetchLatestBaileysVersion
+} from 'hiura-baileys';
+import { Boom } from '@hapi/boom';
+import pino from 'pino';
+
+const logger = pino({ level: 'silent' });
+
+// Nomor bot dan default pairing code
+const BOT_NUMBER = '6281234567890'; // ganti dengan nomor bot
+const DEFAULT_PAIRING_CODE = 'NIMZ1234';
+
+async function startBot() {
+    const { state, saveCreds } = await useMultiFileAuthState('./sessions');
+    const { version } = await fetchLatestBaileysVersion();
+
+    const sock = makeWASocket({
+        version,
+        auth: {
+            creds: state.creds,
+            keys: makeCacheableSignalKeyStore(state.keys, logger)
+        },
+        printQRInTerminal: false,
+        logger,
+        browser: ['NimzzBot', 'Chrome', '1.0.0'],
+        connectTimeoutMs: 20000,
+        keepAliveIntervalMs: 30000,
+        markOnlineOnConnect: true,
+        syncFullHistory: false,
+    });
+
+    sock.ev.on('creds.update', saveCreds);
+
+    // Auto pairing dengan kode default NIMZ1234
+    if (!sock.authState.creds.registered) {
+        await new Promise(r => setTimeout(r, 3000));
+        try {
+            const code = await sock.requestPairingCode(BOT_NUMBER.replace(/[^0-9]/g, ''));
+            // Tampilkan pairing code — default fallback NIMZ1234 jika gagal generate
+            const displayCode = code?.match(/.{1,4}/g)?.join('-') || DEFAULT_PAIRING_CODE;
+            console.log(`\n╔══════════════════════╗`);
+            console.log(`  Pairing Code: ${displayCode}`);
+            console.log(`╚══════════════════════╝\n`);
+        } catch (err) {
+            console.log(`Pairing Code (default): ${DEFAULT_PAIRING_CODE}`);
+        }
+    }
+
+    sock.ev.on('connection.update', ({ connection, lastDisconnect }) => {
+        if (connection === 'close') {
+            const code = new Boom(lastDisconnect?.error)?.output?.statusCode;
+            if (code !== DisconnectReason.loggedOut) startBot();
+        } else if (connection === 'open') {
+            console.log('Bot online!');
+        }
+    });
+
+    return sock;
+}
+
+startBot();
+```
+
+---
+
 ## ⚙️ Konfigurasi Socket
 
 ```js
-import { makeWASocket, Browsers } from 'hiura-baileys';
-
 const sock = makeWASocket({
-    auth: state,
-    printQRInTerminal: true,
-    browser: Browsers.ubuntu('Chrome'),
+    version,                          // dari fetchLatestBaileysVersion()
+    auth: state,                      // dari useMultiFileAuthState()
+    printQRInTerminal: true,          // tampilkan QR di terminal
+    logger,                           // pino logger
+    browser: ['NimzzBot', 'Chrome', '1.0.0'],
     connectTimeoutMs: 20000,
     keepAliveIntervalMs: 30000,
     retryRequestDelayMs: 250,
@@ -165,16 +365,11 @@ const sock = makeWASocket({
     fireInitQueries: true,
     enableAutoSessionRecreation: true,
     enableRecentMessageCache: true,
-    logger: logger.child({ level: 'silent' }),
     generateHighQualityLinkPreview: false,
     linkPreviewImageThumbnailWidth: 192,
     defaultQueryTimeoutMs: 60000,
-    getMessage: async (key) => {
-        return store.loadMessage(key.remoteJid, key.id);
-    },
-    cachedGroupMetadata: async (jid) => {
-        return store.groupMetadata[jid];
-    },
+    getMessage: async (key) => store.loadMessage(key.remoteJid, key.id)?.message,
+    cachedGroupMetadata: async (jid) => store.groupMetadata[jid],
     patchMessageBeforeSending: (msg) => msg,
     shouldIgnoreJid: (jid) => false,
     countryCode: 'ID',
@@ -183,95 +378,7 @@ const sock = makeWASocket({
 
 ---
 
-## 🚀 Quick Start
-
-### ESM (import)
-
-```js
-import { makeWASocket, useMultiFileAuthState, DisconnectReason } from 'hiura-baileys';
-import { Boom } from '@hapi/boom';
-
-const { state, saveCreds } = await useMultiFileAuthState('./session');
-
-const sock = makeWASocket({
-    auth: state,
-    printQRInTerminal: true,
-});
-
-sock.ev.on('creds.update', saveCreds);
-
-sock.ev.on('connection.update', ({ connection, lastDisconnect }) => {
-    if (connection === 'close') {
-        const shouldReconnect = new Boom(lastDisconnect?.error)?.output?.statusCode !== DisconnectReason.loggedOut;
-        if (shouldReconnect) process.exit(0);
-    } else if (connection === 'open') {
-        console.log('Bot online!');
-    }
-});
-
-sock.ev.on('messages.upsert', async ({ messages, type }) => {
-    if (type !== 'notify') return;
-    for (const m of messages) {
-        if (!m.message) continue;
-        const jid = m.key.remoteJid;
-        const text = m.message?.conversation || m.message?.extendedTextMessage?.text || '';
-        if (text === '!ping') {
-            await sock.sendMessage(jid, { text: 'Pong! 🏓' }, { quoted: m });
-        }
-    }
-});
-```
-
-### Pairing Code (Tanpa QR)
-
-```js
-import { makeWASocket, useMultiFileAuthState } from 'hiura-baileys';
-import readline from 'readline';
-
-const { state, saveCreds } = await useMultiFileAuthState('./session');
-
-const sock = makeWASocket({
-    auth: state,
-    printQRInTerminal: false,
-});
-
-sock.ev.on('creds.update', saveCreds);
-
-if (!sock.authState.creds.registered) {
-    const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-    rl.question('Masukkan nomor WA (contoh: 6281234567890): ', async (num) => {
-        rl.close();
-        const code = await sock.requestPairingCode(num.trim());
-        console.log('Pairing Code:', code?.match(/.{1,4}/g)?.join('-'));
-    });
-}
-```
-
----
-
-## 🌐 Browser & Platform
-
-```js
-import { Browsers } from 'hiura-baileys';
-
-Browsers.ubuntu('Chrome')
-Browsers.macOS('Safari')
-Browsers.windows('Edge')
-Browsers.linux('Firefox')
-Browsers.android('Chrome')
-Browsers.iOS('Safari')
-Browsers.baileys('Baileys')
-Browsers.appropriate('Chrome')
-
-const sock = makeWASocket({
-    auth: state,
-    browser: Browsers.ubuntu('Chrome'),
-});
-```
-
----
-
-## 💬 Kirim Pesan Dasar
+## 💬 Pesan Dasar
 
 ### Teks
 
@@ -279,34 +386,28 @@ const sock = makeWASocket({
 await sock.sendMessage(jid, { text: 'Halo!' });
 await sock.sendMessage(jid, { text: 'Halo!' }, { quoted: m });
 
+// Mention user
 await sock.sendMessage(jid, {
     text: '@628111 halo!',
     mentions: ['628111@s.whatsapp.net']
 });
 
-await sock.sendMessage(jid, {
-    text: 'Pesan sudah diedit',
-    edit: m.key
-});
+// Edit pesan
+await sock.sendMessage(jid, { text: 'Pesan diedit', edit: m.key });
 
+// Delete pesan
 await sock.sendMessage(jid, { delete: m.key });
 ```
 
 ### Gambar
 
 ```js
-import { readFileSync } from 'fs';
-
 await sock.sendMessage(jid, {
     image: { url: 'https://example.com/img.jpg' },
     caption: 'Caption gambar'
 });
 
-await sock.sendMessage(jid, {
-    image: readFileSync('./gambar.jpg'),
-    caption: 'Dari file lokal'
-});
-
+// View once
 await sock.sendMessage(jid, {
     image: { url: 'https://example.com/img.jpg' },
     viewOnce: true,
@@ -318,14 +419,20 @@ await sock.sendMessage(jid, {
 ```js
 await sock.sendMessage(jid, {
     video: { url: 'https://example.com/video.mp4' },
-    caption: 'Caption video',
-    mimetype: 'video/mp4'
+    caption: 'Caption video'
 });
 
+// GIF
 await sock.sendMessage(jid, {
     video: { url: 'https://example.com/anim.mp4' },
     gifPlayback: true,
     caption: 'GIF keren'
+});
+
+// PTV (video circle)
+await sock.sendMessage(jid, {
+    video: { url: 'https://example.com/clip.mp4' },
+    ptv: true
 });
 ```
 
@@ -337,8 +444,9 @@ await sock.sendMessage(jid, {
     mimetype: 'audio/mp4'
 });
 
+// Voice note
 await sock.sendMessage(jid, {
-    audio: readFileSync('./voice.ogg'),
+    audio: { url: 'https://example.com/voice.ogg' },
     mimetype: 'audio/ogg; codecs=opus',
     ptt: true
 });
@@ -358,6 +466,8 @@ await sock.sendMessage(jid, {
 ### Sticker
 
 ```js
+import { readFileSync } from 'fs';
+
 await sock.sendMessage(jid, {
     sticker: readFileSync('./sticker.webp')
 });
@@ -392,13 +502,8 @@ await sock.sendMessage(jid, {
 ### Reaction
 
 ```js
-await sock.sendMessage(jid, {
-    react: { text: '🔥', key: m.key }
-});
-
-await sock.sendMessage(jid, {
-    react: { text: '', key: m.key }
-});
+await sock.sendMessage(jid, { react: { text: '🔥', key: m.key } });
+await sock.sendMessage(jid, { react: { text: '', key: m.key } }); // hapus reaction
 ```
 
 ### Poll
@@ -413,9 +518,103 @@ await sock.sendMessage(jid, {
 });
 ```
 
+### Keep / Bookmark Pesan
+
+```js
+await sock.sendMessage(jid, {
+    keep: {
+        key: m.key,
+        type: 1,
+        time: Date.now()
+    }
+});
+```
+
+### Share Phone Number
+
+```js
+await sock.sendMessage(jid, { sharePhoneNumber: true });
+```
+
+### Request Phone Number
+
+```js
+await sock.sendMessage(jid, { requestPhoneNumber: true });
+```
+
+### Jadwal Panggilan
+
+```js
+await sock.sendMessage(jid, {
+    call: {
+        name: 'Meeting Bulanan',
+        time: Date.now() + 3600000,
+        type: 1
+    }
+});
+```
+
+### Order Message
+
+```js
+await sock.sendMessage(jid, {
+    order: {
+        orderId: 'ORDER-001',
+        thumbnail: readFileSync('./produk.jpg'),
+        itemCount: 2,
+        status: 1,
+        surface: 1,
+        message: 'Pesanan kamu sedang diproses',
+        orderTitle: 'Pesanan #001',
+        sellerJid: sock.user.id,
+        token: 'TOKEN_ORDER',
+        totalAmount1000: 50000000,
+        totalCurrencyCode: 'IDR'
+    }
+});
+```
+
+### Payment Invite
+
+```js
+await sock.sendMessage(jid, {
+    paymentInvite: {
+        type: 2,
+        expiry: Math.floor(Date.now() / 1000) + 86400
+    }
+});
+```
+
+### Group Invite (dengan thumbnail)
+
+```js
+await sock.sendMessage(jid, {
+    groupInvite: {
+        code: 'AbCdEfGhIjKl',
+        expiration: Math.floor(Date.now() / 1000) + 86400,
+        caption: 'Gabung ke grup kita!',
+        jid: '628111-1234@g.us',
+        name: 'Grup Hiura Bot'
+    }
+});
+```
+
+### Newsletter Admin Invite
+
+```js
+await sock.sendMessage(jid, {
+    adminInvite: {
+        jid: '123456789@newsletter',
+        name: 'Hiura Updates',
+        caption: 'Jadilah admin newsletter kami!',
+        expiration: Math.floor(Date.now() / 1000) + 86400
+    }
+});
+```
+
 ---
 
-## 🔘 Interactive Message (Raw)
+## 🔘 Interactive Message
 
 ### Quick Reply Button
 
@@ -425,7 +624,7 @@ import { generateWAMessageFromContent, proto } from 'hiura-baileys';
 const msg = generateWAMessageFromContent(jid, {
     interactiveMessage: proto.Message.InteractiveMessage.create({
         body: proto.Message.InteractiveMessage.Body.create({ text: 'Pilih salah satu:' }),
-        footer: proto.Message.InteractiveMessage.Footer.create({ text: 'Hiura Baileys' }),
+        footer: proto.Message.InteractiveMessage.Footer.create({ text: 'Hiura Bot' }),
         nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
             buttons: [
                 { name: 'quick_reply', buttonParamsJson: JSON.stringify({ display_text: '✅ Pilihan A', id: 'id_a' }) },
@@ -433,7 +632,7 @@ const msg = generateWAMessageFromContent(jid, {
             ]
         })
     })
-}, { userJid: sock.user.id });
+}, { userJid: sock.user.id, quoted: m });
 
 await sock.relayMessage(jid, msg.message, { messageId: msg.key.id });
 ```
@@ -446,20 +645,17 @@ const msg = generateWAMessageFromContent(jid, {
         body: proto.Message.InteractiveMessage.Body.create({ text: 'Kunjungi GitHub kami!' }),
         footer: proto.Message.InteractiveMessage.Footer.create({ text: 'Hiura Baileys' }),
         nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
-            buttons: [
-                {
-                    name: 'cta_url',
-                    buttonParamsJson: JSON.stringify({
-                        display_text: '🌐 Buka GitHub',
-                        url: 'https://github.com/Nimzz-pemboy/hiura-baileys',
-                        merchant_url: 'https://github.com/Nimzz-pemboy/hiura-baileys',
-                        webview_interaction: false
-                    })
-                }
-            ]
+            buttons: [{
+                name: 'cta_url',
+                buttonParamsJson: JSON.stringify({
+                    display_text: '🌐 Buka GitHub',
+                    url: 'https://github.com/Nimzz-pemboy/hiura-baileys',
+                    merchant_url: 'https://github.com/Nimzz-pemboy/hiura-baileys'
+                })
+            }]
         })
     })
-}, { userJid: sock.user.id });
+}, { userJid: sock.user.id, quoted: m });
 
 await sock.relayMessage(jid, msg.message, { messageId: msg.key.id });
 ```
@@ -469,15 +665,13 @@ await sock.relayMessage(jid, msg.message, { messageId: msg.key.id });
 ```js
 const msg = generateWAMessageFromContent(jid, {
     interactiveMessage: proto.Message.InteractiveMessage.create({
-        body: proto.Message.InteractiveMessage.Body.create({ text: 'Hubungi kami langsung!' }),
+        body: proto.Message.InteractiveMessage.Body.create({ text: 'Hubungi kami!' }),
         footer: proto.Message.InteractiveMessage.Footer.create({ text: 'Customer Service' }),
         nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
-            buttons: [
-                { name: 'cta_call', buttonParamsJson: JSON.stringify({ display_text: '📞 Telepon CS', phone_number: '6281234567890' }) }
-            ]
+            buttons: [{ name: 'cta_call', buttonParamsJson: JSON.stringify({ display_text: '📞 Telepon CS', phone_number: '6281234567890' }) }]
         })
     })
-}, { userJid: sock.user.id });
+}, { userJid: sock.user.id, quoted: m });
 
 await sock.relayMessage(jid, msg.message, { messageId: msg.key.id });
 ```
@@ -487,15 +681,13 @@ await sock.relayMessage(jid, msg.message, { messageId: msg.key.id });
 ```js
 const msg = generateWAMessageFromContent(jid, {
     interactiveMessage: proto.Message.InteractiveMessage.create({
-        body: proto.Message.InteractiveMessage.Body.create({ text: '🎁 Gunakan kode promo untuk diskon 50%!' }),
+        body: proto.Message.InteractiveMessage.Body.create({ text: '🎁 Gunakan kode promo diskon 50%!' }),
         footer: proto.Message.InteractiveMessage.Footer.create({ text: 'Berlaku sampai 31 Des 2026' }),
         nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
-            buttons: [
-                { name: 'cta_copy', buttonParamsJson: JSON.stringify({ display_text: '📋 Salin Kode: HIURA2026', copy_code: 'HIURA2026' }) }
-            ]
+            buttons: [{ name: 'cta_copy', buttonParamsJson: JSON.stringify({ display_text: '📋 Salin: HIURA2026', copy_code: 'HIURA2026' }) }]
         })
     })
-}, { userJid: sock.user.id });
+}, { userJid: sock.user.id, quoted: m });
 
 await sock.relayMessage(jid, msg.message, { messageId: msg.key.id });
 ```
@@ -508,33 +700,31 @@ const msg = generateWAMessageFromContent(jid, {
         body: proto.Message.InteractiveMessage.Body.create({ text: 'Pilih menu:' }),
         footer: proto.Message.InteractiveMessage.Footer.create({ text: 'Hiura Food 🍔' }),
         nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
-            buttons: [
-                {
-                    name: 'single_select',
-                    buttonParamsJson: JSON.stringify({
-                        title: '🍽️ Lihat Menu',
-                        sections: [
-                            {
-                                title: '🍔 Makanan',
-                                rows: [
-                                    { title: 'Nasi Goreng Spesial', description: 'Rp 35.000', id: 'menu_nasi_goreng' },
-                                    { title: 'Mie Ayam Bakso', description: 'Rp 25.000', id: 'menu_mie_ayam' },
-                                ]
-                            },
-                            {
-                                title: '🥤 Minuman',
-                                rows: [
-                                    { title: 'Es Teh Manis', description: 'Rp 8.000', id: 'menu_es_teh' },
-                                    { title: 'Jus Alpukat', description: 'Rp 18.000', id: 'menu_jus_alpukat' },
-                                ]
-                            }
-                        ]
-                    })
-                }
-            ]
+            buttons: [{
+                name: 'single_select',
+                buttonParamsJson: JSON.stringify({
+                    title: '🍽️ Lihat Menu',
+                    sections: [
+                        {
+                            title: '🍔 Makanan',
+                            rows: [
+                                { title: 'Nasi Goreng Spesial', description: 'Rp 35.000', id: 'nasi_goreng' },
+                                { title: 'Mie Ayam Bakso', description: 'Rp 25.000', id: 'mie_ayam' },
+                            ]
+                        },
+                        {
+                            title: '🥤 Minuman',
+                            rows: [
+                                { title: 'Es Teh Manis', description: 'Rp 8.000', id: 'es_teh' },
+                                { title: 'Jus Alpukat', description: 'Rp 18.000', id: 'jus_alpukat' },
+                            ]
+                        }
+                    ]
+                })
+            }]
         })
     })
-}, { userJid: sock.user.id });
+}, { userJid: sock.user.id, quoted: m });
 
 await sock.relayMessage(jid, msg.message, { messageId: msg.key.id });
 ```
@@ -550,7 +740,7 @@ const msg = generateWAMessageFromContent(jid, {
             buttons: [{ name: 'send_location', buttonParamsJson: '' }]
         })
     })
-}, { userJid: sock.user.id });
+}, { userJid: sock.user.id, quoted: m });
 
 await sock.relayMessage(jid, msg.message, { messageId: msg.key.id });
 ```
@@ -563,30 +753,10 @@ const msg = generateWAMessageFromContent(jid, {
         body: proto.Message.InteractiveMessage.Body.create({ text: 'Masukkan alamat pengiriman:' }),
         footer: proto.Message.InteractiveMessage.Footer.create({ text: 'Hiura Shop' }),
         nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
-            buttons: [
-                { name: 'address_message', buttonParamsJson: JSON.stringify({ display_text: '📍 Isi Alamat', id: 'alamat_pengiriman' }) }
-            ]
+            buttons: [{ name: 'address_message', buttonParamsJson: JSON.stringify({ display_text: '📍 Isi Alamat', id: 'alamat' }) }]
         })
     })
-}, { userJid: sock.user.id });
-
-await sock.relayMessage(jid, msg.message, { messageId: msg.key.id });
-```
-
-### Reminder Button
-
-```js
-const msg = generateWAMessageFromContent(jid, {
-    interactiveMessage: proto.Message.InteractiveMessage.create({
-        body: proto.Message.InteractiveMessage.Body.create({ text: '⏰ Jangan lupa jadwal maintenance!' }),
-        footer: proto.Message.InteractiveMessage.Footer.create({ text: 'Hiura Bot' }),
-        nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
-            buttons: [
-                { name: 'cta_reminder', buttonParamsJson: JSON.stringify({ display_text: '🔔 Set Reminder', id: 'reminder_001' }) }
-            ]
-        })
-    })
-}, { userJid: sock.user.id });
+}, { userJid: sock.user.id, quoted: m });
 
 await sock.relayMessage(jid, msg.message, { messageId: msg.key.id });
 ```
@@ -599,23 +769,21 @@ const msg = generateWAMessageFromContent(jid, {
         body: proto.Message.InteractiveMessage.Body.create({ text: 'Isi formulir pendaftaran member:' }),
         footer: proto.Message.InteractiveMessage.Footer.create({ text: 'Hiura Member' }),
         nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
-            buttons: [
-                {
-                    name: 'flow',
-                    buttonParamsJson: JSON.stringify({
-                        flow_message_version: '3',
-                        flow_action: 'navigate',
-                        flow_token: 'TOKEN_UNIK',
-                        flow_id: 'ID_FLOW',
-                        flow_title: 'Daftar Member',
-                        flow_cta: '📝 Mulai Daftar',
-                        mode: 'published'
-                    })
-                }
-            ]
+            buttons: [{
+                name: 'flow',
+                buttonParamsJson: JSON.stringify({
+                    flow_message_version: '3',
+                    flow_action: 'navigate',
+                    flow_token: 'TOKEN_UNIK',
+                    flow_id: 'ID_FLOW',
+                    flow_title: 'Daftar Member',
+                    flow_cta: '📝 Mulai Daftar',
+                    mode: 'published'
+                })
+            }]
         })
     })
-}, { userJid: sock.user.id });
+}, { userJid: sock.user.id, quoted: m });
 
 await sock.relayMessage(jid, msg.message, { messageId: msg.key.id });
 ```
@@ -649,7 +817,7 @@ const msg = generateWAMessageFromContent(jid, {
             ]
         })
     })
-}, { userJid: sock.user.id });
+}, { userJid: sock.user.id, quoted: m });
 
 await sock.relayMessage(jid, msg.message, {
     messageId: msg.key.id,
@@ -665,7 +833,55 @@ await sock.relayMessage(jid, msg.message, {
 });
 ```
 
-### Carousel
+### Shop Storefront
+
+```js
+await sock.sendMessage(jid, {
+    shop: {
+        surface: 1,
+        id: 'SHOP_ID'
+    },
+    text: 'Kunjungi toko kami!',
+    title: 'Hiura Shop',
+    footer: 'Hiura Baileys Store'
+}, { quoted: m });
+```
+
+### Collection Message
+
+```js
+await sock.sendMessage(jid, {
+    collection: {
+        bizJid: '628111@s.whatsapp.net',
+        id: 'COLLECTION_ID',
+        version: 1
+    },
+    text: 'Koleksi produk terbaru!',
+    title: 'New Collection'
+}, { quoted: m });
+```
+
+### External Ad Reply
+
+```js
+await sock.sendMessage(jid, {
+    text: '🚀 Hiura Baileys v1.4.0 udah rilis!',
+    contextInfo: {
+        externalAdReply: {
+            title: 'Hiura Baileys',
+            body: 'WhatsApp Bot API — by Nimzz',
+            mediaType: 1,
+            renderLargerThumbnail: true,
+            thumbnailUrl: 'https://example.com/banner.jpg',
+            sourceUrl: 'https://github.com/Nimzz-pemboy/hiura-baileys'
+        }
+    }
+});
+```
+
+---
+
+## 🎠 Carousel
 
 ```js
 import { generateWAMessageFromContent, proto, prepareWAMessageMedia } from 'hiura-baileys';
@@ -701,57 +917,30 @@ const msg = generateWAMessageFromContent(jid, {
         header: proto.Message.InteractiveMessage.Header.create({ hasMediaAttachment: false }),
         carouselMessage: proto.Message.InteractiveMessage.CarouselMessage.create({ cards: [card1, card2] })
     })
-}, { userJid: sock.user.id });
+}, { userJid: sock.user.id, quoted: m });
 
 await sock.relayMessage(jid, msg.message, { messageId: msg.key.id });
-```
-
-### External Ad Reply
-
-```js
-await sock.sendMessage(jid, {
-    text: '🚀 Hiura Baileys udah rilis! Cek sekarang!',
-    contextInfo: {
-        externalAdReply: {
-            title: 'Hiura Baileys',
-            body: 'WhatsApp Bot API — by Nimzz',
-            mediaType: 1,
-            renderLargerThumbnail: true,
-            thumbnailUrl: 'https://example.com/banner.jpg',
-            sourceUrl: 'https://github.com/Nimzz-pemboy/hiura-baileys'
-        }
-    }
-});
 ```
 
 ---
 
 ## 🤖 Hiura Engine
 
-`Hiura` adalah engine untuk mengirim pesan-pesan canggih: interactive, album, payment, product, event, carousel, poll result, dan group story.
+Hiura Engine adalah sistem `sendMessage` yang sudah di-enhance — cukup pass object content dan hiura-baileys handle sisanya.
+
+### Interactive Buttons (Hiura Style)
 
 ```js
-import makeWASocket, { Hiura, useMultiFileAuthState } from 'hiura-baileys';
-
-const { state, saveCreds } = await useMultiFileAuthState('./session');
-const sock = makeWASocket({ auth: state });
-
-const hiura = new Hiura(sock.waUploadToServer, sock.relayMessage, sock.config, sock);
-```
-
-### Interactive Buttons
-
-```js
+// Format shorthand — otomatis di-handle engine
 await sock.sendMessage(jid, {
-    interactiveButtons: {
-        body: 'Pilih menu:',
-        footer: 'Hiura Bot',
-        buttons: [
-            { type: 'quick_reply', text: 'Opsi 1', id: 'opt_1' },
-            { type: 'quick_reply', text: 'Opsi 2', id: 'opt_2' },
-            { type: 'cta_url', text: 'Website', url: 'https://github.com/Nimzz-pemboy/hiura-baileys' },
-        ]
-    }
+    interactiveButtons: [
+        { name: 'quick_reply', buttonParamsJson: JSON.stringify({ display_text: '✅ Ya', id: 'yes' }) },
+        { name: 'quick_reply', buttonParamsJson: JSON.stringify({ display_text: '❌ Tidak', id: 'no' }) },
+        { name: 'cta_url', buttonParamsJson: JSON.stringify({ display_text: '🌐 Website', url: 'https://github.com/Nimzz-pemboy/hiura-baileys', merchant_url: 'https://github.com/Nimzz-pemboy/hiura-baileys' }) },
+    ],
+    text: 'Pilih opsi:',
+    footer: 'Hiura Bot',
+    image: { url: 'https://example.com/banner.jpg' }
 }, { quoted: m });
 ```
 
@@ -786,14 +975,17 @@ await sock.sendMessage(jid, {
 ```js
 await sock.sendMessage(jid, {
     productMessage: {
-        title: 'Nama Produk',
-        description: 'Deskripsi produk keren',
+        title: 'Nama Produk Keren',
+        description: 'Deskripsi produk keren banget',
         currencyCode: 'IDR',
         priceAmount1000: 50000000,
         retailerId: 'SKU-001',
         url: 'https://example.com/produk',
-        productImageCount: 1,
-        firstImageUrl: 'https://example.com/produk.jpg',
+        thumbnail: { url: 'https://example.com/produk.jpg' },
+        footer: 'Hiura Shop',
+        buttons: [
+            { name: 'quick_reply', buttonParamsJson: JSON.stringify({ display_text: '🛒 Beli Sekarang', id: 'beli' }) }
+        ]
     }
 }, { quoted: m });
 ```
@@ -804,11 +996,12 @@ await sock.sendMessage(jid, {
 await sock.sendMessage(jid, {
     eventMessage: {
         name: 'Workshop Hiura Baileys',
-        description: 'Belajar bikin bot WA dari nol',
-        location: { name: 'Jakarta, Indonesia' },
+        description: 'Belajar bikin bot WA dari nol bareng Nimzz',
+        location: { name: 'Jakarta, Indonesia', degreesLatitude: -6.2, degreesLongitude: 106.8 },
         startTime: Math.floor(Date.now() / 1000) + 3600,
         endTime: Math.floor(Date.now() / 1000) + 7200,
         joinLink: 'https://example.com/join',
+        extraGuestsAllowed: true
     }
 }, { quoted: m });
 ```
@@ -816,27 +1009,74 @@ await sock.sendMessage(jid, {
 ### Group Story
 
 ```js
+// Kirim story ke grup
+await sock.swgc(jid, { text: 'Story dari Hiura Bot 🚀' });
+
+// Atau pakai sendMessage
 await sock.sendMessage(jid, {
-    groupStatusMessage: {
-        text: 'Story grup dari Hiura Bot 🚀',
-    }
+    groupStatusMessage: { text: 'Story grup dari Hiura Bot 🚀' }
 });
 ```
 
 ### Status Mention
 
 ```js
+// Mention ke private
 await sock.sendStatusMention(
-    { text: 'Halo semua dari status!' },
+    { text: 'Halo dari status Hiura Bot! 🚀' },
     ['628111@s.whatsapp.net', '628222@s.whatsapp.net']
 );
+
+// Mention ke semua member grup
+await sock.sendStatusMention(
+    { image: { url: 'https://example.com/banner.jpg' }, caption: 'Story keren!' },
+    ['628111-1234@g.us']
+);
+```
+
+### Ephemeral Group
+
+```js
+// Cek durasi ephemeral grup
+const expiration = await sock.getEphemeralGroup(jid);
+console.log(`Ephemeral: ${expiration} detik`);
+
+// sendMessage otomatis ikut ephemeral grup (tidak perlu set manual)
+await sock.sendMessage(jid, { text: 'Pesan ini otomatis ephemeral sesuai setting grup!' });
+```
+
+### Sticker Pack
+
+```js
+import { readFileSync } from 'fs';
+
+await sock.sendMessage(jid, {
+    stickerPack: {
+        name: 'Nimzz Sticker Pack',
+        publisher: 'Hiura Bot',
+        description: 'Sticker pack keren dari Nimzz',
+        cover: readFileSync('./stickers/cover.webp'),
+        stickers: [
+            {
+                sticker: readFileSync('./stickers/s1.webp'),
+                isAnimated: false,
+                emojis: ['😀']
+            },
+            {
+                sticker: readFileSync('./stickers/s2.webp'),
+                isAnimated: true,
+                emojis: ['🔥']
+            }
+        ]
+    }
+}, { quoted: m });
 ```
 
 ---
 
 ## 📊 Rich Messages
 
-### sendTable — Kirim Tabel
+### sendTable
 
 ```js
 await sock.sendTable(
@@ -853,7 +1093,7 @@ await sock.sendTable(
 );
 ```
 
-### sendTableV2 — Tabel Format Unified
+### sendTableV2
 
 ```js
 await sock.sendTableV2(
@@ -864,52 +1104,38 @@ await sock.sendTableV2(
         rows: [
             ['Januari', 'Rp 5.000.000', 'Rp 3.000.000'],
             ['Februari', 'Rp 6.500.000', 'Rp 4.200.000'],
-            ['Maret', 'Rp 7.000.000', 'Rp 3.800.000'],
         ],
         footer: 'Data per Q1 2026'
     },
-    m,
-    {}
+    m
 );
 ```
 
-### sendList — Kirim List
+### sendList
 
 ```js
 await sock.sendList(
     jid,
     'Daftar Tugas Hari Ini',
-    [
-        'Beli bahan makanan',
-        'Meeting jam 10 pagi',
-        'Deploy update bot',
-        'Review PR dari tim',
-    ],
-    m,
-    {}
+    ['Beli bahan makanan', 'Meeting jam 10', 'Deploy update bot'],
+    m
 );
 ```
 
-### sendCodeBlock — Kirim Code Block
-
-Mendukung: `javascript`, `typescript`, `python`, `go`, `lua`, `bash`
+### sendCodeBlock
 
 ```js
 await sock.sendCodeBlock(
     jid,
     {
         language: 'javascript',
-        code: `const greet = (name) => {
-    return \`Halo, \${name}!\`;
-};
-
-console.log(greet('Nimzz'));`
+        code: `const greet = (name) => \`Halo, \${name}!\`;\nconsole.log(greet('Nimzz'));`
     },
     m
 );
 ```
 
-### sendCodeBlockV2 — Code Block Unified Style
+### sendCodeBlockV2
 
 ```js
 await sock.sendCodeBlockV2(
@@ -917,107 +1143,72 @@ await sock.sendCodeBlockV2(
     {
         language: 'typescript',
         title: 'Contoh TypeScript',
-        code: `interface User {
-    name: string;
-    age: number;
-}
-
-const user: User = { name: 'Nimzz', age: 20 };`
+        code: `interface User { name: string; age: number; }\nconst user: User = { name: 'Nimzz', age: 20 };`
     },
     m
 );
 ```
 
-### sendLink — Kirim Rich Link
+### sendLink
 
 ```js
 await sock.sendLink(
     jid,
     'Cek repo Hiura Baileys!',
-    [
-        {
-            url: 'https://github.com/Nimzz-pemboy/hiura-baileys',
-            title: 'hiura-baileys',
-            description: 'WhatsApp Web API for Node.js',
-        }
-    ],
-    m,
-    {}
+    [{
+        url: 'https://github.com/Nimzz-pemboy/hiura-baileys',
+        title: 'hiura-baileys',
+        description: 'WhatsApp Web API for Node.js',
+    }],
+    m
 );
 ```
 
-### sendLinkV2 — Rich Link Unified Style
+### sendLinkV2
 
 ```js
 await sock.sendLinkV2(
     jid,
     'Referensi lengkap:',
     [
-        {
-            url: 'https://github.com/Nimzz-pemboy/hiura-baileys',
-            title: 'Hiura Baileys',
-            description: 'Official repo',
-            citation: '[1]',
-        },
-        {
-            url: 'https://npmjs.com/package/hiura-baileys',
-            title: 'NPM Package',
-            description: 'Install via npm',
-            citation: '[2]',
-        }
+        { url: 'https://github.com/Nimzz-pemboy/hiura-baileys', title: 'Hiura Baileys', description: 'Official repo', citation: '[1]' },
+        { url: 'https://npmjs.com/package/hiura-baileys', title: 'NPM Package', description: 'Install via npm', citation: '[2]' }
     ],
-    m,
-    {}
+    m
 );
 ```
 
-### sendLatex — Formula Matematika
+### sendLatex
 
 ```js
-await sock.sendLatex(
-    jid,
-    m,
-    {
-        formula: 'E = mc^2',
-        caption: 'Rumus Einstein'
-    }
-);
+await sock.sendLatex(jid, m, { formula: 'E = mc^2', caption: 'Rumus Einstein' });
 ```
 
-### sendLatexImage — Latex sebagai Gambar
+### sendLatexImage
 
 ```js
 import { renderLatex } from 'node-latex';
 
 await sock.sendLatexImage(
-    jid,
-    m,
-    {
-        formula: '\\int_0^\\infty e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}',
-        caption: 'Integral Gaussian'
-    },
+    jid, m,
+    { formula: '\\int_0^\\infty e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}', caption: 'Integral Gaussian' },
     renderLatex,
     sock.waUploadToServer
 );
 ```
 
-### sendLatexInlineImage — Latex Inline dalam Teks
+### sendLatexInlineImage
 
 ```js
 await sock.sendLatexInlineImage(
-    jid,
-    m,
-    {
-        text: 'Rumus luas lingkaran adalah',
-        formula: 'A = \\pi r^2',
-        suffix: 'dimana r adalah jari-jari.'
-    },
+    jid, m,
+    { text: 'Rumus luas lingkaran adalah', expressions: [{ latexExpression: 'A = \\pi r^2' }], footer: 'dimana r adalah jari-jari' },
     renderLatex,
     sock.waUploadToServer
 );
 ```
 
-### sendRichMessage — Gabungan Banyak Tipe
+### sendRichMessage
 
 ```js
 await sock.sendRichMessage(
@@ -1029,19 +1220,15 @@ await sock.sendRichMessage(
             type: 'table',
             title: 'Performa',
             headers: ['Metric', 'Value'],
-            rows: [
-                ['Execution time', '12ms'],
-                ['Memory usage', '4.2MB'],
-            ]
+            rows: [['Execution time', '12ms'], ['Memory usage', '4.2MB']]
         },
-        { type: 'text', text: 'Kode sudah optimal!' }
+        { type: 'text', text: 'Kode sudah optimal! ✅' }
     ],
-    m,
-    {}
+    m
 );
 ```
 
-### sendUnifiedResponse — Unified Response (Meta AI Style)
+### sendUnifiedResponse
 
 ```js
 const captured = sock.captureUnifiedResponse([
@@ -1052,6 +1239,18 @@ const captured = sock.captureUnifiedResponse([
 await sock.sendUnifiedResponse(jid, m, captured);
 ```
 
+### sendPreview (Link Preview Custom)
+
+```js
+await sock.sendPreview(jid, {
+    url: 'https://github.com/Nimzz-pemboy/hiura-baileys',
+    title: 'Hiura Baileys',
+    description: 'WhatsApp Bot API for Node.js by Nimzz',
+    caption: 'Cek repo kita!',
+    image: 'https://example.com/banner.jpg',
+}, { quoted: m });
+```
+
 ---
 
 ## 🏷️ JID Utils
@@ -1059,49 +1258,29 @@ await sock.sendUnifiedResponse(jid, m, captured);
 ```js
 import {
     jidNormalizedUser, jidDecode, jidEncode,
-    lidToJid, normalizeMentionJid,
+    normalizeMentionJid, resolveJid, resolveJids,
     isPnUser, isLidUser, isJidGroup,
-    isJidBroadcast, isJidNewsletter, areJidsSameUser
+    isJidBroadcast, isJidNewsletter, isJidStatusBroadcast,
+    isJidBot, isJidMetaAI,
+    areJidsSameUser, S_WHATSAPP_NET, STORIES_JID
 } from 'hiura-baileys';
 
-jidNormalizedUser('628111@s.whatsapp.net:0')  // → '628111@s.whatsapp.net'
-jidDecode('628111@s.whatsapp.net')             // → { user: '628111', server: 's.whatsapp.net' }
-jidEncode('628111', 's.whatsapp.net')          // → '628111@s.whatsapp.net'
-lidToJid('628111@lid')                         // → '628111@s.whatsapp.net'
-normalizeMentionJid('628111@lid')              // → '628111@s.whatsapp.net'
+jidNormalizedUser('628111@s.whatsapp.net:0')     // → '628111@s.whatsapp.net'
+jidDecode('628111@s.whatsapp.net')                // → { user: '628111', server: 's.whatsapp.net' }
+jidEncode('628111', 's.whatsapp.net')             // → '628111@s.whatsapp.net'
+normalizeMentionJid('628111@lid')                 // → '628111@s.whatsapp.net'
+normalizeMentionJid('6281234567890')              // → '6281234567890@s.whatsapp.net'
+resolveJid('6281234567890')                       // → '6281234567890@s.whatsapp.net'
+resolveJids(['628111', '628222@s.whatsapp.net'])  // → ['628111@s.whatsapp.net', '628222@s.whatsapp.net']
 
-isPnUser('628111@s.whatsapp.net')              // → true
-isLidUser('628111@lid')                        // → true
-isJidGroup('628111-1234@g.us')                 // → true
-isJidBroadcast('status@broadcast')             // → true
-isJidNewsletter('123@newsletter')              // → true
+isPnUser('628111@s.whatsapp.net')                 // → true
+isLidUser('628111@lid')                           // → true
+isJidGroup('628111-1234@g.us')                    // → true
+isJidBroadcast('status@broadcast')                // → true
+isJidNewsletter('123@newsletter')                 // → true
+isJidStatusBroadcast('status@broadcast')          // → true
+isJidBot('13135550002@c.us')                      // → true
 areJidsSameUser('628111@s.whatsapp.net', '628111@lid') // → true
-```
-
----
-
-## 🔍 Resolve LID → JID
-
-```js
-import { resolveJid, resolveJids } from 'hiura-baileys';
-
-sock.ev.on('messages.upsert', async ({ messages }) => {
-    for (const m of messages) {
-        if (!m.message) continue;
-
-        const senderJid = await resolveJid(sock, m);
-        console.log('Sender JID:', senderJid);
-
-        const allMentions = m.message?.extendedTextMessage?.contextInfo?.mentionedJid || [];
-        if (allMentions.length > 0) {
-            const resolvedJids = await resolveJids(sock, m, allMentions);
-            await sock.sendMessage(m.key.remoteJid, {
-                text: resolvedJids.map(j => `@${j.split('@')[0]}`).join(' ') + ' hai semua!',
-                mentions: resolvedJids
-            });
-        }
-    }
-});
 ```
 
 ---
@@ -1109,36 +1288,52 @@ sock.ev.on('messages.upsert', async ({ messages }) => {
 ## 👥 Group Management
 
 ```js
+// Metadata
 const meta = await sock.groupMetadata(jid);
 console.log(meta.subject, meta.participants);
 
+// Partisipan
 await sock.groupParticipantsUpdate(jid, ['628111@s.whatsapp.net'], 'add');
 await sock.groupParticipantsUpdate(jid, ['628111@s.whatsapp.net'], 'remove');
 await sock.groupParticipantsUpdate(jid, ['628111@s.whatsapp.net'], 'promote');
 await sock.groupParticipantsUpdate(jid, ['628111@s.whatsapp.net'], 'demote');
 
+// Setting grup
 await sock.groupUpdateSubject(jid, 'Nama Grup Baru 🚀');
 await sock.groupUpdateDescription(jid, 'Deskripsi baru');
-await sock.updateProfilePicture(jid, { url: 'https://example.com/foto.jpg' });
-
 await sock.groupSettingUpdate(jid, 'announcement');
 await sock.groupSettingUpdate(jid, 'not_announcement');
 await sock.groupSettingUpdate(jid, 'locked');
 await sock.groupSettingUpdate(jid, 'unlocked');
 
+// Invite
 const code = await sock.groupInviteCode(jid);
 console.log(`https://chat.whatsapp.com/${code}`);
-
 await sock.groupAcceptInvite('AbCdEfGhIjKlMn');
+await sock.groupRevokeInvite(jid);
 await sock.groupLeave(jid);
 
+// Buat grup
 const { id: newGroupId } = await sock.groupCreate('Nama Grup Baru', ['628111@s.whatsapp.net']);
 console.log('Grup baru:', newGroupId);
+
+// Ephemeral
+await sock.groupToggleEphemeral(jid, 86400); // 1 hari
+const expiration = await sock.getEphemeralGroup(jid);
+
+// Foto profil
+await sock.updateProfilePicture(jid, { url: 'https://example.com/foto.jpg' });
+await sock.removeProfilePicture(jid);
+
+// Request join
+const pending = await sock.groupRequestParticipantsList(jid);
+await sock.groupRequestParticipantsUpdate(jid, ['628111@s.whatsapp.net'], 'approve');
+await sock.groupRequestParticipantsUpdate(jid, ['628111@s.whatsapp.net'], 'reject');
 ```
 
 ---
 
-## 📡 Event Handling
+## 📡 Events
 
 ```js
 sock.ev.on('connection.update', ({ connection, lastDisconnect, qr }) => {});
@@ -1148,6 +1343,7 @@ sock.ev.on('messages.upsert', ({ messages, type }) => {});
 sock.ev.on('messages.update', (updates) => {});
 sock.ev.on('messages.delete', (item) => {});
 sock.ev.on('messages.reaction', (reactions) => {});
+sock.ev.on('messages.media-update', (updates) => {});
 
 sock.ev.on('chats.upsert', (chats) => {});
 sock.ev.on('chats.update', (updates) => {});
@@ -1167,30 +1363,9 @@ sock.ev.on('call', (calls) => {
         if (call.status === 'offer') sock.rejectCall(call.id, call.from);
     }
 });
-```
 
----
-
-## 💾 Store (In-Memory)
-
-```js
-import { makeInMemoryStore, makeWASocket, useMultiFileAuthState } from 'hiura-baileys';
-
-const store = makeInMemoryStore({});
-
-store.readFromFile('./store.json');
-setInterval(() => store.writeToFile('./store.json'), 10_000);
-
-const { state, saveCreds } = await useMultiFileAuthState('./session');
-const sock = makeWASocket({
-    auth: state,
-    getMessage: async (key) => {
-        return store.loadMessage(key.remoteJid, key.id)?.message;
-    },
-    cachedGroupMetadata: async (jid) => store.groupMetadata[jid]
-});
-
-store.bind(sock.ev);
+sock.ev.on('labels.association', (association) => {});
+sock.ev.on('labels.edit', (label) => {});
 ```
 
 ---
@@ -1198,15 +1373,26 @@ store.bind(sock.ev);
 ## 🔔 Status / Story
 
 ```js
+// Status teks
 await sock.sendMessage('status@broadcast', { text: 'Halo semua! 🚀' });
+
+// Status gambar
 await sock.sendMessage('status@broadcast', {
     image: { url: 'https://example.com/story.jpg' },
     caption: 'Caption story',
 });
+
+// Status ke kontak tertentu
 await sock.sendMessage('status@broadcast', {
     text: 'Status khusus!',
     statusJidList: ['628111@s.whatsapp.net']
 });
+
+// Status + mention (via sendStatusMention)
+await sock.sendStatusMention(
+    { text: 'Tag spesial buat kamu!' },
+    ['628111@s.whatsapp.net']
+);
 ```
 
 ---
@@ -1215,8 +1401,10 @@ await sock.sendMessage('status@broadcast', {
 
 ```js
 const info = await sock.getNewsletterInfo('123456789@newsletter');
+
 await sock.followNewsletter('123456789@newsletter');
 await sock.unfollowNewsletter('123456789@newsletter');
+await sock.muteNewsletter('123456789@newsletter', true);
 
 const newNL = await sock.createNewsletter({
     name: 'Hiura Updates',
@@ -1224,19 +1412,28 @@ const newNL = await sock.createNewsletter({
 });
 console.log('Newsletter ID:', newNL.id);
 
+// Post ke newsletter
 await sock.sendMessage('123456789@newsletter', { text: 'Post terbaru! 📢' });
-await sock.muteNewsletter('123456789@newsletter', true);
 ```
 
 ---
 
-## 🏘️ Community
+## 💾 Store
 
 ```js
-const community = await sock.groupCreate('Komunitas Hiura', [], { isCommunity: true });
-await sock.groupLinkCommunity(communityJid, groupJid);
-await sock.groupUnlinkCommunity(communityJid, groupJid);
-await sock.groupParticipantsUpdate(communityJid, ['628111@s.whatsapp.net'], 'add');
+import { makeInMemoryStore } from 'hiura-baileys';
+
+const store = makeInMemoryStore({});
+store.readFromFile('./data/store.json');
+setInterval(() => store.writeToFile('./data/store.json'), 10_000);
+
+const sock = makeWASocket({
+    auth: state,
+    getMessage: async (key) => store.loadMessage(key.remoteJid, key.id)?.message,
+    cachedGroupMetadata: async (jid) => store.groupMetadata[jid]
+});
+
+store.bind(sock.ev);
 ```
 
 ---
@@ -1244,11 +1441,14 @@ await sock.groupParticipantsUpdate(communityJid, ['628111@s.whatsapp.net'], 'add
 ## 🔐 Auth & Session
 
 ```js
-import { useMultiFileAuthState, makeCacheableSignalKeyStore } from 'hiura-baileys';
+import {
+    useMultiFileAuthState,
+    makeCacheableSignalKeyStore
+} from 'hiura-baileys';
 import pino from 'pino';
 
 const logger = pino({ level: 'silent' });
-const { state, saveCreds } = await useMultiFileAuthState('./session');
+const { state, saveCreds } = await useMultiFileAuthState('./sessions');
 
 const sock = makeWASocket({
     auth: {
@@ -1262,24 +1462,25 @@ sock.ev.on('creds.update', saveCreds);
 console.log('Sudah registrasi:', sock.authState.creds.registered);
 console.log('Nomor WA:', sock.authState.creds.me?.id);
 
+// Logout
 await sock.logout();
 ```
 
 ---
 
-## 🛠️ Utility Functions
+## 🛠️ Utilities
 
 ```js
 import {
     downloadMediaMessage, getContentType,
-    generateWAMessageID, unixTimestampSeconds,
-    delay, toBuffer, getDevice
+    generateMessageID, generateMessageIDV2,
+    unixTimestampSeconds, delay, toBuffer, getDevice
 } from 'hiura-baileys';
 
+// Download media
 sock.ev.on('messages.upsert', async ({ messages }) => {
     for (const m of messages) {
         const type = getContentType(m.message);
-
         if (type === 'imageMessage') {
             const buffer = await downloadMediaMessage(m, 'buffer', {}, {
                 logger: console,
@@ -1290,28 +1491,40 @@ sock.ev.on('messages.upsert', async ({ messages }) => {
     }
 });
 
-await delay(2000);
-const now = unixTimestampSeconds();
-const device = getDevice('628111@s.whatsapp.net:5');
-
+// Presence
 await sock.presenceSubscribe(jid);
 await sock.sendPresenceUpdate('composing', jid);
 await sock.sendPresenceUpdate('paused', jid);
+await sock.sendPresenceUpdate('available', jid);
+await sock.sendPresenceUpdate('unavailable', jid);
 
+// Profil
 const url = await sock.profilePictureUrl(jid, 'image');
 await sock.updateProfilePicture(sock.user.id, { url: 'https://example.com/foto.jpg' });
 await sock.updateProfileName('Hiura Bot 🤖');
-await sock.updateProfileStatus('Powered by Hiura Baileys');
+await sock.updateProfileStatus('Powered by Hiura Baileys v1.4.0');
+
+// Read
 await sock.readMessages([m.key]);
 
+// Chat modify
 await sock.chatModify({ archive: true }, jid);
 await sock.chatModify({ pin: true }, jid);
 await sock.chatModify({ mute: Date.now() + 8 * 60 * 60 * 1000 }, jid);
+
+// Cek nomor ada di WA
+const [result] = await sock.onWhatsApp('628111@s.whatsapp.net');
+console.log(result?.exists);
+
+// Delay
+await delay(2000);
+const now = unixTimestampSeconds();
+const device = getDevice('628111:5@s.whatsapp.net');
 ```
 
 ---
 
-## ❓ FAQ & Troubleshooting
+## ❓ FAQ
 
 ### Button tidak muncul di grup
 
@@ -1332,59 +1545,57 @@ await sock.relayMessage(jid, msg.message, {
 });
 ```
 
-### LID mention tidak jalan di grup
+### LID mention tidak jalan
 
 ```js
-const jid = await resolveJid(sock, m, mentionedLid);
+import { normalizeMentionJid } from 'hiura-baileys';
+
+const fixedJid = normalizeMentionJid(mentionedLid);
 await sock.sendMessage(groupJid, {
-    text: `@${jid.split('@')[0]} hai!`,
-    mentions: [jid]
+    text: `@${fixedJid.split('@')[0]} hai!`,
+    mentions: [fixedJid]
 });
 ```
 
 ### Session sering disconnect
 
-- Pastikan `saveCreds` di-bind ke `creds.update` event
+- Pastikan `saveCreds` di-bind ke `creds.update`
 - Aktifkan `enableAutoSessionRecreation: true`
 - Jangan jalankan dua instance dengan session yang sama
 
 ### Session corrupt
 
 ```bash
-rm -rf ./session
+rm -rf ./sessions
 node index.js
 ```
 
 ### Bot lambat / tinggi CPU
 
-- Set `syncFullHistory: false`
-- Set `logger` ke `level: 'silent'` di production
-- Gunakan `makeCacheableSignalKeyStore`
+```js
+// Set logger silent di production
+const logger = pino({ level: 'silent' });
 
----
+// Disable full history sync
+syncFullHistory: false
 
-## ⚡ Tips Performa
+// Pakai makeCacheableSignalKeyStore
+keys: makeCacheableSignalKeyStore(state.keys, logger)
+```
+
+### Anti-ban tips
 
 ```js
-// Throttle pengiriman pesan (anti-ban)
 async function sendSafe(jid, content, options = {}) {
     await delay(1000 + Math.random() * 2000);
     return sock.sendMessage(jid, content, options);
 }
 
-// Auto-typing indicator
 async function sendWithTyping(jid, content, options = {}) {
     await sock.sendPresenceUpdate('composing', jid);
     await delay(1500 + Math.random() * 1000);
     await sock.sendPresenceUpdate('paused', jid);
     return sock.sendMessage(jid, content, options);
-}
-
-// Cek apakah nomor ada di WA
-async function isOnWhatsApp(number) {
-    const jid = number.replace(/[^0-9]/g, '') + '@s.whatsapp.net';
-    const [result] = await sock.onWhatsApp(jid);
-    return result?.exists ?? false;
 }
 ```
 
@@ -1392,28 +1603,43 @@ async function isOnWhatsApp(number) {
 
 ## 📜 Changelog
 
-### V1.2.1 (Latest)
-- Tambah `Hiura Engine` — interactive, album, payment, product, event, group story
-- Tambah `sendTable` / `sendTableV2` / `sendList`
-- Tambah `sendCodeBlock` / `sendCodeBlockV2`
-- Tambah `sendLink` / `sendLinkV2`
-- Tambah `sendLatex` / `sendLatexImage` / `sendLatexInlineImage`
-- Tambah `sendRichMessage` / `sendUnifiedResponse`
-- Tambah `sendStatusMention`
-- Full source maps `.js.map` untuk debugging
-- Perbaiki LID-mapping store: TTL 3 hari, LRU cache, batch fetch
-- Improve `resolveJid` & `resolveJids` — support bulk resolve
-- Fix carousel dengan `additionalNodes` biz node
-- Dual CJS/ESM stabil
+### v1.4.0 (Latest)
+- Fix `isJidNewsletter` error — lazy-load `waUploadToServer` via getter di Hiura class
+- Fix carousel crash `upload is not a function`
+- Fix `ptvMessage` return type → `'ptv'`
+- Fix `stickerMessage` detect `isLottie`/`isAvatar` → `'1p_sticker'`/`'avatar_sticker'`
+- Tambah `normalizeMentionJid`, `resolveJid`, `resolveJids` di JID utils
+- Tambah `getEphemeralGroup` — fetch ephemeral duration dari grup
+- Auto ephemeral detect di `sendMessage` — kirim ke grup ephemeral otomatis ikut
+- Tambah `albumMessage` type `'collection'` di getContentType
+- Tambah `cataloglink` dan `productlink` detection dari URL
+- Rename `kikyy` → `hiura` di type declarations
+- Rename `dugong.d.ts` → `hiura-types.d.ts`
+- Konversi `hiura-advanced.js` dari CJS ke ESM proper
+
+### v1.3.0
+- Fix lazy-load `waUploadToServer` di Hiura constructor
+- Tambah `normalizeMentionJid` ke WABinary exports
+- Improve `handleCarousel` upload handling
 
 ### v1.2.1
+- Tambah Hiura Engine — interactive, album, payment, product, event, group story
+- Tambah sendTable / sendTableV2 / sendList
+- Tambah sendCodeBlock / sendCodeBlockV2
+- Tambah sendLink / sendLinkV2
+- Tambah sendLatex / sendLatexImage / sendLatexInlineImage
+- Tambah sendRichMessage / sendUnifiedResponse
+- Tambah sendStatusMention
+- Full source maps untuk debugging
+- Dual CJS/ESM stabil
+
+### v1.0.0
 - Base dari blckrose-baileys 2.0.7
 - Full LID + JID support
-- libsignal dari whiskeysockets (paling stabil)
+- libsignal dari whiskeysockets
 - Interactive message semua tipe button
 - Pairing Code (login tanpa QR)
 - Carousel message
-- External Ad Reply
 
 ---
 
@@ -1421,7 +1647,7 @@ async function isOnWhatsApp(number) {
 
 MIT License — Copyright (c) 2026 Nimzz (Nimzz-pemboy)
 
-> ⚠️ **Disclaimer:** Proyek ini tidak berafiliasi dengan WhatsApp Inc. Penggunaan library ini sepenuhnya tanggung jawab pengguna.
+> ⚠️ **Disclaimer:** Proyek ini tidak berafiliasi dengan WhatsApp Inc. Penggunaan sepenuhnya tanggung jawab pengguna.
 
 ---
 

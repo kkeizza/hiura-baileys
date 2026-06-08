@@ -1,7 +1,7 @@
 // hiura.d.ts
 import { proto } from '../../WAProto';
 
-declare namespace kikyy {
+declare namespace hiura {
     interface MediaUploadOptions {
         fileEncSha256?: Buffer;
         mediaType?: string;
@@ -190,65 +190,65 @@ declare namespace kikyy {
     }
 }
 
-declare class kikyy {
+declare class hiura {
     constructor(
-        utils: kikyy.Utils,
-        waUploadToServer: kikyy.WAMediaUploadFunction,
+        utils: hiura.Utils,
+        waUploadToServer: hiura.WAMediaUploadFunction,
         relayMessageFn?: (jid: string, content: any, options?: any) => Promise<any>
     );
     
-    detectType(content: kikyy.MessageContent): 'PAYMENT' | 'PRODUCT' | 'INTERACTIVE' | 'ALBUM' | 'EVENT' | 'POLL_RESULT' | 'GROUP_STORY' | null;
+    detectType(content: hiura.MessageContent): 'PAYMENT' | 'PRODUCT' | 'INTERACTIVE' | 'ALBUM' | 'EVENT' | 'POLL_RESULT' | 'GROUP_STORY' | null;
 
     handlePayment(
-        content: { requestPaymentMessage: kikyy.PaymentMessage },
+        content: { requestPaymentMessage: hiura.PaymentMessage },
         quoted?: proto.IWebMessageInfo
     ): Promise<{ requestPaymentMessage: proto.Message.RequestPaymentMessage }>;
 
     handleProduct(
-        content: { productMessage: kikyy.ProductMessage },
+        content: { productMessage: hiura.ProductMessage },
         jid: string,
         quoted?: proto.IWebMessageInfo
     ): Promise<{ viewOnceMessage: proto.Message.ViewOnceMessage }>;
 
     handleInteractive(
-        content: { interactiveMessage: kikyy.InteractiveMessage },
+        content: { interactiveMessage: hiura.InteractiveMessage },
         jid: string,
         quoted?: proto.IWebMessageInfo
     ): Promise<{ interactiveMessage: proto.Message.InteractiveMessage }>;
 
     handleAlbum(
-        content: { albumMessage: kikyy.AlbumItem[] },
+        content: { albumMessage: hiura.AlbumItem[] },
         jid: string,
         quoted?: proto.IWebMessageInfo
     ): Promise<any>;
 
     handleEvent(
-        content: { eventMessage: kikyy.EventMessage },
+        content: { eventMessage: hiura.EventMessage },
         jid: string,
         quoted?: proto.IWebMessageInfo
     ): Promise<any>;
     
     handlePollResult(
-        content: { pollResultMessage: kikyy.PollResultMessage },
+        content: { pollResultMessage: hiura.PollResultMessage },
         jid: string,
         quoted?: proto.IWebMessageInfo
     ): Promise<any>;
 
     handleGroupStory(
-        content: { groupStatusMessage: kikyy.GroupStatusMessage },
+        content: { groupStatusMessage: hiura.GroupStatusMessage },
         jid: string,
         quoted?: proto.IWebMessageInfo
     ): Promise<any>;
 
     buildMessageContent(
         content: any,
-        opts?: kikyy.WAMessageContentGenerationOptions
+        opts?: hiura.WAMessageContentGenerationOptions
     ): Promise<any>;
 
-    utils: kikyy.Utils;
+    utils: hiura.Utils;
     relayMessage: (jid: string, content: any, options?: any) => Promise<any>;
-    waUploadToServer: kikyy.WAMediaUploadFunction;
-    bail: kikyy.BailUtils;
+    waUploadToServer: hiura.WAMediaUploadFunction;
+    bail: hiura.BailUtils;
 }
 
-export = kikyy;
+export = hiura;
