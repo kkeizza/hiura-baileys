@@ -55,6 +55,47 @@ export declare function decryptPollVote({ encPayload, encIv }: proto.Message.IPo
  * @returns event response message
  */
 export declare function decryptEventResponse({ encPayload, encIv }: proto.Message.IPollEncValue, { eventCreatorJid, eventMsgId, eventEncKey, responderJid }: EventContext): proto.Message.EventResponseMessage;
+/**
+ * Decrypt an encrypted event edit message
+ * @param encData encrypted payload + IV
+ * @param ctx additional info about the event required for decryption
+ * @returns decoded Message
+ */
+export declare function decryptEventEdit({ encPayload, encIv }: proto.Message.IPollEncValue, { eventCreatorJid, eventMsgId, eventEncKey, responderJid }: EventContext): proto.Message;
+type CommentContext = {
+    /** normalised jid of the person that created the comment */
+    commentCreatorJid: string;
+    /** ID of the comment creation message */
+    commentMsgId: string;
+    /** comment message enc key */
+    commentEncKey: Uint8Array;
+    /** jid of the commenter */
+    commentJid: string;
+};
+/**
+ * Decrypt an encrypted comment message
+ * @param encData encrypted payload + IV
+ * @param ctx additional info required for decryption
+ * @returns decoded Message
+ */
+export declare function decryptComment({ encPayload, encIv }: proto.Message.IPollEncValue, { commentCreatorJid, commentMsgId, commentEncKey, commentJid }: CommentContext): proto.Message;
+type ReactionContext = {
+    /** normalised jid of the person that created the reaction */
+    reactionCreatorJid: string;
+    /** ID of the reaction target message */
+    reactionMsgId: string;
+    /** reaction message enc key */
+    reactionEncKey: Uint8Array;
+    /** jid of the reactor */
+    reactionJid: string;
+};
+/**
+ * Decrypt an encrypted reaction message
+ * @param encData encrypted payload + IV
+ * @param ctx additional info required for decryption
+ * @returns decoded ReactionMessage
+ */
+export declare function decryptReaction({ encPayload, encIv }: proto.Message.IPollEncValue, { reactionCreatorJid, reactionMsgId, reactionEncKey, reactionJid }: ReactionContext): proto.Message.ReactionMessage;
 declare const processMessage: (message: WAMessage, { shouldProcessHistoryMsg, placeholderResendCache, ev, creds, signalRepository, keyStore, logger, options, getMessage }: ProcessMessageContext) => Promise<void>;
 export default processMessage;
 //# sourceMappingURL=process-message.d.ts.map

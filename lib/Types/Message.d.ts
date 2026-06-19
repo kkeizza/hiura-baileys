@@ -156,6 +156,86 @@ export type GroupInviteInfo = {
 export type WASendableProduct = Omit<proto.Message.ProductMessage.IProductSnapshot, 'productImage'> & {
     productImage: WAMediaUpload;
 };
+export type ButtonsMessageContent = {
+    buttons: proto.Message.ButtonsMessage.IButton[];
+    text?: string;
+    caption?: string;
+    title?: string;
+    footer?: string;
+} & Mentionable & Contextable;
+export type TemplateButtonsContent = {
+    templateButtons: proto.HydratedTemplateButton[];
+    text?: string;
+    caption?: string;
+    footer?: string;
+} & Mentionable & Contextable;
+export type SectionsMessageContent = {
+    sections: proto.Message.ListMessage.ISection[];
+    title?: string;
+    buttonText?: string;
+    text?: string;
+    footer?: string;
+} & Mentionable & Contextable;
+export type ProductListMessageContent = {
+    productList: proto.Message.ListMessage.IProductSection[];
+    businessOwnerJid: string;
+    title?: string;
+    buttonText?: string;
+    text?: string;
+    footer?: string;
+    thumbnail?: WAMediaUpload;
+} & Contextable;
+export type InteractiveButtonsContent = {
+    interactiveButtons: proto.Message.InteractiveMessage.NativeFlowMessage.INativeFlowButton[];
+    text?: string;
+    caption?: string;
+    title?: string;
+    subtitle?: string;
+    footer?: string;
+    media?: boolean;
+} & Mentionable & Contextable;
+export type ShopMessageContent = {
+    /** Support both { shop: { surface, id } } and { shop: surface, id } */
+    shop: proto.Message.InteractiveMessage.ShopMessage.Surface | {
+        surface: proto.Message.InteractiveMessage.ShopMessage.Surface;
+        id: string;
+    };
+    id?: string;
+    text?: string;
+    caption?: string;
+    title?: string;
+    subtitle?: string;
+    footer?: string;
+    media?: boolean;
+} & Mentionable & Contextable;
+export type CollectionMessageContent = {
+    collection: {
+        bizJid: string;
+        id: string;
+        version?: number;
+    };
+    text?: string;
+    caption?: string;
+    title?: string;
+    subtitle?: string;
+    footer?: string;
+} & Mentionable & Contextable;
+export type CarouselCardContent = {
+    title?: string;
+    body?: string;
+    footer?: string;
+    image?: WAMediaUpload;
+    video?: WAMediaUpload;
+    product?: WASendableProduct;
+    buttons: proto.Message.InteractiveMessage.NativeFlowMessage.INativeFlowButton[];
+};
+export type CardsMessageContent = {
+    cards: CarouselCardContent[];
+    text?: string;
+    title?: string;
+    subtitle?: string;
+    footer?: string;
+} & Mentionable & Contextable;
 export type AnyRegularMessageContent = (({
     text: string;
     linkPreview?: WAUrlInfo | null;
@@ -174,7 +254,7 @@ export type AnyRegularMessageContent = (({
     react: proto.Message.IReactionMessage;
 } | {
     buttonReply: ButtonReplyInfo;
-    type: 'template' | 'plain';
+    type: 'template' | 'plain' | 'list' | 'interactive';
 } | {
     groupInvite: GroupInviteInfo;
 } | {
@@ -191,7 +271,7 @@ export type AnyRegularMessageContent = (({
     businessOwnerJid?: string;
     body?: string;
     footer?: string;
-} | SharePhoneNumber | RequestPhoneNumber) & ViewOnce;
+} | ButtonsMessageContent | TemplateButtonsContent | SectionsMessageContent | ProductListMessageContent | InteractiveButtonsContent | ShopMessageContent | CollectionMessageContent | CardsMessageContent | SharePhoneNumber | RequestPhoneNumber) & ViewOnce;
 export type AnyMessageContent = AnyRegularMessageContent | {
     forward: WAMessage;
     force?: boolean;

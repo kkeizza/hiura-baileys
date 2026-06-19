@@ -3,7 +3,7 @@
 /**
  * hiura-baileys — CJS wrapper
  * By Nimzz · github.com/Nimzz-pemboy
- * Base: blckrose-baileys 2.0.7 (cr: @Blckrose0)
+ * Base: hiura-baileys 1.4.0 (cr: @Blckrose0)
  *
  * Destructure dan langsung pakai tanpa await ready:
  *
@@ -65,16 +65,16 @@ _load();
 module.exports.ready = _loadPromise;
 module.exports.load = _load;
 
-// ── Async-safe function wrapper ───────────────────────────────────────────────
+//  Async-safe function wrapper 
 // Semua fungsi di-wrap: otomatis tunggu ESM load selesai lalu eksekusi.
 // Hasilnya: bisa dipanggil langsung tanpa await ready.
 
 function _wrapFn(name) {
   return async function(...args) {
-    if (_loadError) throw new Error('[blckrose-baileys] Load failed: ' + _loadError.message);
+    if (_loadError) throw new Error('[hiura-baileys] Load failed: ' + _loadError.message);
     if (!_mod) await _load();
     const fn = name === 'makeWASocket' ? _mod.default : _mod[name];
-    if (typeof fn !== 'function') throw new Error('[blckrose-baileys] "' + name + '" bukan fungsi');
+    if (typeof fn !== 'function') throw new Error('[hiura-baileys] "' + name + '" bukan fungsi');
     return fn(...args);
   };
 }
@@ -85,27 +85,27 @@ function _wrapMakeWASocket() {
   return function makeWASocket(...args) {
     if (_mod) return _mod.default(...args);
     // Kalau belum load, throw — karena makeWASocket tidak async
-    if (_loadError) throw new Error('[blckrose-baileys] Load failed: ' + _loadError.message);
+    if (_loadError) throw new Error('[hiura-baileys] Load failed: ' + _loadError.message);
     throw new Error(
-      '[blckrose-baileys] makeWASocket dipanggil sebelum Baileys selesai load.\n' +
+      '[hiura-baileys] makeWASocket dipanggil sebelum Baileys selesai load.\n' +
       'Pastikan await useMultiFileAuthState() dulu (itu sudah cukup untuk menunggu load).'
     );
   };
 }
 
-// ── Lazy getter untuk nilai non-fungsi ────────────────────────────────────────
+//  Lazy getter untuk nilai non-fungsi 
 function _makeLazyGetter(name) {
   return function() {
-    if (_loadError) throw new Error('[blckrose-baileys] Load failed: ' + _loadError.message);
+    if (_loadError) throw new Error('[hiura-baileys] Load failed: ' + _loadError.message);
     if (_mod) return _mod[name];
     throw new Error(
-      '[blckrose-baileys] "' + name + '" belum siap. ' +
+      '[hiura-baileys] "' + name + '" belum siap. ' +
       'Gunakan await useMultiFileAuthState() sebelum akses konstanta ini.'
     );
   };
 }
 
-// ── Daftar semua exports ──────────────────────────────────────────────────────
+//  Daftar semua exports 
 
 const _functions = [
   'addTransactionCapability','aesDecrypt','aesDecryptCTR','aesDecryptGCM',
