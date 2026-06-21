@@ -1,13 +1,13 @@
 'use strict';
 
 /**
- * hiura-baileys — CJS wrapper
+ * hiura-baileys — CJS entry point
  * By Nimzz · github.com/Nimzz-pemboy
- * Base: hiura-baileys 1.4.0 (cr: @Blckrose0)
+ * Base: hiura-baileys 1.5.0 (cr: @Blckrose0)
  *
- * Destructure dan langsung pakai tanpa await ready:
+ * Cara pakai — sama seperti CJS biasa, tidak ada lagi await/ready:
  *
- *   const { makeWASocket, useMultiFileAuthState, Browsers } = require('hiura-baileys');
+ *   const { makeWASocket, useMultiFileAuthState, proto, BufferJSON } = require('hiura-baileys');
  *
  *   async function start() {
  *     const { state, saveCreds } = await useMultiFileAuthState('./auth');
@@ -15,184 +15,70 @@
  *   }
  *   start();
  *
- * Cara kerja:
- *   - ESM di-load di background saat require() dipanggil
- *   - Semua fungsi auto-await load selesai sebelum dieksekusi
- *   - Semua nilai non-fungsi (konstanta, enum) tersedia via getter setelah load
- *   - Tidak perlu await ready, tidak perlu top-level await
+ * ============================================================
+ * KENAPA FILE INI DITULIS ULANG (v1.5.0 -> v1.5.1 internal fix)
+ * ============================================================
+ * Versi sebelumnya pakai dynamic import() + lazy getter: semua nilai
+ * non-fungsi (proto, BufferJSON, DisconnectReason, dst) baru benar-benar
+ * tersedia SETELAH _load() selesai, dan _load() baru jalan kalau ada
+ * fungsi (mis. useMultiFileAuthState) yang sempat dipanggil dan di-await
+ * duluan. Konsekuensinya: kode yang melakukan
+ *
+ *   const { proto, BufferJSON } = require('hiura-baileys');
+ *
+ * di baris paling atas file (sebelum ada `await` apapun) akan dapat
+ * error "belum siap", karena destructuring itu mengevaluasi getter
+ * SAAT ITU JUGA, secara sinkron — padahal _mod waktu itu masih null.
+ *
+ * Solusinya: lib/index.js (ESM) di package ini TIDAK punya top-level
+ * await, sehingga sejak Node v20.19.0 / v22.12.0 (require(esm) sudah
+ * stabil tanpa flag), kita bisa require() dia langsung secara SINKRON
+ * dan dapat semua exports-nya seketika — persis seperti module CJS
+ * biasa. Tidak perlu lagi dynamic import(), tidak perlu lagi lazy
+ * getter, tidak perlu lagi await ready.
+ *
+ * SYARAT NODE: >= 20.19.0 atau >= 22.12.0. Kalau Node lebih lama dari
+ * itu, require() di bawah akan throw ERR_REQUIRE_ESM dengan pesan asli
+ * dari Node — pesan error di catch block bawah ini menjelaskan kenapa
+ * dan apa yang perlu di-upgrade.
  */
 
-let _mod = null;
-let _loadPromise = null;
-let _loadError = null;
-
-function _load() {
-  if (_loadPromise) return _loadPromise;
-  _loadPromise = import('./lib/index.js').then(mod => {
-    _mod = mod;
-    // Populate semua exports setelah load
-    for (const key of Object.keys(mod)) {
-      if (key === 'default') continue;
-      const val = mod[key];
-      // Fungsi: sudah di-wrap jadi async-safe di bawah, skip overwrite
-      if (typeof val === 'function') continue;
-      // Nilai statis (konstanta, enum, object): langsung assign
-      Object.defineProperty(module.exports, key, {
-        value: val,
-        writable: true,
-        enumerable: true,
-        configurable: true,
-      });
-    }
-    Object.defineProperty(module.exports, 'default', {
-      value: mod.default,
-      writable: true,
-      enumerable: true,
-      configurable: true,
-    });
-    module.exports.ready = Promise.resolve(mod);
-    return mod;
-  }).catch(err => {
-    _loadError = err;
-    throw err;
-  });
-  return _loadPromise;
-}
-
-// Kick off immediately on require()
-_load();
-
-module.exports.ready = _loadPromise;
-module.exports.load = _load;
-
-//  Async-safe function wrapper 
-// Semua fungsi di-wrap: otomatis tunggu ESM load selesai lalu eksekusi.
-// Hasilnya: bisa dipanggil langsung tanpa await ready.
-
-function _wrapFn(name) {
-  return async function(...args) {
-    if (_loadError) throw new Error('[hiura-baileys] Load failed: ' + _loadError.message);
-    if (!_mod) await _load();
-    const fn = name === 'makeWASocket' ? _mod.default : _mod[name];
-    if (typeof fn !== 'function') throw new Error('[hiura-baileys] "' + name + '" bukan fungsi');
-    return fn(...args);
-  };
-}
-
-// makeWASocket khusus: return value-nya sync (WASocket object), bukan Promise
-// Jadi kita wrap tapi return langsung hasil pemanggilan fn
-function _wrapMakeWASocket() {
-  return function makeWASocket(...args) {
-    if (_mod) return _mod.default(...args);
-    // Kalau belum load, throw — karena makeWASocket tidak async
-    if (_loadError) throw new Error('[hiura-baileys] Load failed: ' + _loadError.message);
+let _mod;
+try {
+  _mod = require('./lib/index.js');
+} catch (err) {
+  if (err && err.code === 'ERR_REQUIRE_ESM') {
+    const v = process.versions.node;
     throw new Error(
-      '[hiura-baileys] makeWASocket dipanggil sebelum Baileys selesai load.\n' +
-      'Pastikan await useMultiFileAuthState() dulu (itu sudah cukup untuk menunggu load).'
+      `[hiura-baileys] Gagal require('./lib/index.js') karena Node.js Anda (v${v}) ` +
+      `belum mendukung require(esm) secara native.\n` +
+      `Package ini butuh Node.js >= 20.19.0 atau >= 22.12.0 (tanpa flag tambahan).\n` +
+      `Silakan upgrade Node.js Anda, lalu jalankan ulang.\n\n` +
+      `Error asli dari Node: ${err.message}`
     );
-  };
+  }
+  throw err;
 }
 
-//  Lazy getter untuk nilai non-fungsi 
-function _makeLazyGetter(name) {
-  return function() {
-    if (_loadError) throw new Error('[hiura-baileys] Load failed: ' + _loadError.message);
-    if (_mod) return _mod[name];
-    throw new Error(
-      '[hiura-baileys] "' + name + '" belum siap. ' +
-      'Gunakan await useMultiFileAuthState() sebelum akses konstanta ini.'
-    );
-  };
+// Re-export semua named exports + default secara langsung, sinkron.
+// Tidak ada lagi getter/proxy — ini object biasa, sama seperti hasil
+// require() module CJS pada umumnya.
+for (const key of Object.keys(_mod)) {
+  if (key === 'default') continue;
+  module.exports[key] = _mod[key];
 }
 
-//  Daftar semua exports 
-
-const _functions = [
-  'addTransactionCapability','aesDecrypt','aesDecryptCTR','aesDecryptGCM',
-  'aesDecryptWithIV','aesEncrypWithIV','aesEncrypt','aesEncryptCTR','aesEncryptGCM',
-  'aggregateMessageKeysNotFromMe','areJidsSameUser','assertMediaContent',
-  'assertNodeErrorFree','bindWaitForConnectionUpdate','bindWaitForEvent',
-  'bytesToCrockford','chatModificationToAppPatch','debouncedTimeout',
-  'decodeMediaRetryNode','decodePatches','decodeSyncdMutations','decodeSyncdPatch',
-  'decodeSyncdSnapshot','decryptMediaRetryData','delay','delayCancellable',
-  'derivePairingCodeKey','downloadContentFromMessage','downloadEncryptedContent',
-  'downloadExternalBlob','downloadExternalPatch','downloadMediaMessage',
-  'encodeBase64EncodedStringForUpload','encodeBigEndian','encodeNewsletterMessage',
-  'encodeSyncdPatch','encodeWAMessage','encryptMediaRetryRequest','encryptedStream',
-  'extensionForMediaMessage','extractImageThumb','extractMessageContent',
-  'extractSyncdPatches','extractUrlFromText','fetchLatestBaileysVersion',
-  'fetchLatestWaWebVersion','generateForwardMessageContent',
-  'generateLinkPreviewIfRequired','generateMdTagPrefix','generateMessageID',
-  'generateMessageIDV2','generateParticipantHashV2','generateProfilePicture',
-  'generateRegistrationId','generateSignalPubKey','generateThumbnail',
-  'generateWAMessage','generateWAMessageContent','generateWAMessageFromContent',
-  'getAggregateResponsesInEventMessage','getAggregateVotesInPollMessage',
-  'getAllBinaryNodeChildren','getAudioDuration','getAudioWaveform',
-  'getBinaryNodeChild','getBinaryNodeChildBuffer','getBinaryNodeChildString',
-  'getBinaryNodeChildUInt','getBinaryNodeChildren','getBinaryNodeMessages',
-  'getCallStatusFromNode','getCodeFromWSError','getContentType','getDevice',
-  'getErrorCodeFromStreamError','getHttpStream','getKeyAuthor','getMediaKeys',
-  'getMediaTypeFromContentType','getPlatformId','getRawMediaUploadData',
-  'getServerFromDomainType','getStatusCodeForMediaRetry','getStatusFromReceiptType',
-  'getStream','getUrlFromDirectPath','getWAUploadToServer','hasNonNullishProperty',
-  'hkdf','hkdfInfoKey','hmacSign','initAuthCreds','isHostedLidUser','isHostedPnUser',
-  'isJidBot','isJidBroadcast','isJidGroup','isJidMetaAI','isJidNewsletter',
-  'isJidStatusBroadcast','isLidUser','isPnUser','isStringNullOrEmpty',
-  'isWABusinessPlatform','jidDecode','jidEncode','jidNormalizedUser',
-  'makeCacheableSignalKeyStore','md5','mediaMessageSHA256B64','newLTHashState',
-  'normalizeMessageContent','prepareDisappearingMessageSettingContent',
-  'prepareWAMessageMedia','processSyncAction','promiseTimeout',
-  'reduceBinaryNodeToDictionary','sha256','signedKeyPair','toBuffer','toNumber',
-  'toReadable','transferDevice','trimUndefined','unixTimestampSeconds',
-  'unpadRandomMax16','updateMessageWithEventResponse','updateMessageWithPollUpdate',
-  'updateMessageWithReaction','updateMessageWithReceipt','uploadWithNodeHttp',
-  'useMultiFileAuthState','writeRandomPadMax16','makeNewsletterUtils','resolveJid','resolveJids','binaryNodeToString',
-];
-
-const _constants = [
-  'Browsers','BufferJSON','CALL_AUDIO_PREFIX','CALL_VIDEO_PREFIX','Curve',
-  'DEFAULT_CACHE_TTLS','DEFAULT_CONNECTION_CONFIG','DEFAULT_ORIGIN',
-  'DEF_CALLBACK_PREFIX','DEF_TAG_PREFIX','DICT_VERSION','DisconnectReason',
-  'INITIAL_PREKEY_COUNT','KEY_BUNDLE_TYPE','MEDIA_HKDF_KEY_MAPPING','MEDIA_KEYS',
-  'MEDIA_PATH_MAP','META_AI_JID','MIN_PREKEY_COUNT','MIN_UPLOAD_INTERVAL',
-  'NOISE_MODE','NOISE_WA_HEADER','OFFICIAL_BIZ_JID','PHONE_CONNECTION_CB',
-  'PLACEHOLDER_MAX_AGE_SECONDS','PROCESSABLE_HISTORY_TYPES','PSA_WID','proto',
-  'SERVER_JID','STATUS_EXPIRY_SECONDS','STORIES_JID','S_WHATSAPP_NET','TimeMs',
-  'UNAUTHORIZED_CODES','UPLOAD_TIMEOUT','URL_REGEX','WA_ADV_ACCOUNT_SIG_PREFIX',
-  'WA_ADV_DEVICE_SIG_PREFIX','WA_ADV_HOSTED_ACCOUNT_SIG_PREFIX',
-  'WA_ADV_HOSTED_DEVICE_SIG_PREFIX','WA_CERT_DETAILS','WA_DEFAULT_EPHEMERAL',
-  'WAJIDDomains',
-];
-
-// Register fungsi sebagai async-safe wrapper
-for (const name of _functions) {
-  Object.defineProperty(module.exports, name, {
-    value: _wrapFn(name),
-    writable: true,
-    enumerable: true,
-    configurable: true,
-  });
+// default export (makeWASocket) — exported juga sebagai named export
+// 'makeWASocket' untuk kompatibilitas dengan kode yang sudah destructure
+// `const { default: makeWASocket } = require('hiura-baileys')` (gaya lama)
+// MAUPUN `const { makeWASocket } = require('hiura-baileys')` (gaya baru).
+module.exports.default = _mod.default;
+if (!('makeWASocket' in module.exports)) {
+  module.exports.makeWASocket = _mod.default;
 }
 
-// makeWASocket khusus — sync wrapper
-Object.defineProperty(module.exports, 'makeWASocket', {
-  value: _wrapMakeWASocket(),
-  writable: true,
-  enumerable: true,
-  configurable: true,
-});
-
-// Register konstanta sebagai lazy getter
-for (const name of _constants) {
-  if (name in module.exports) continue;
-  Object.defineProperty(module.exports, name, {
-    get: _makeLazyGetter(name),
-    set(v) {
-      Object.defineProperty(module.exports, name, {
-        value: v, writable: true, enumerable: true, configurable: true,
-      });
-    },
-    enumerable: true,
-    configurable: true,
-  });
-}
+// Properti ini sengaja tetap disediakan (walau sekarang sudah tidak
+// dibutuhkan secara fungsional) supaya kode lama yang masih menulis
+// `await require('hiura-baileys').ready` tidak crash — sekarang cuma
+// Promise yang sudah resolved dari awal.
+module.exports.ready = Promise.resolve(_mod);

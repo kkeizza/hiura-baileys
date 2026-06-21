@@ -1,16 +1,13 @@
 {
     "name": "hiura-baileys",
     "type": "module",
-    "version": "1.5.0",
+    "version": "1.5.1",
     "description": "WhatsApp Web API — Hiura Baileys by Nimzz. Full LID+JID, all buttons, interactive messages, rich messages, album, latex, and more.",
     "keywords": [
         "automation",
         "baileys",
         "baileys-fork",
         "baileys-mod",
-        "hiura",
-        "hiura-baileys",
-        "hiura-whatsapp",
         "interactive-messages",
         "js-whatsapp",
         "multi-device",
@@ -21,11 +18,7 @@
         "whatsapp-bot",
         "whatsapp-chat",
         "whatsapp-group",
-        "whatsapp-web",
-        "album",
-        "rich-messages",
-        "lid",
-        "button"
+        "whatsapp-web"
     ],
     "homepage": "https://github.com/Nimzz-pemboy/hiura-baileys",
     "repository": {
@@ -93,6 +86,6 @@
     },
     "packageManager": "yarn@4.9.2",
     "engines": {
-        "node": ">=20.0.0"
+        "node": ">=20.19.0 <21.0.0 || >=22.12.0"
     }
 }

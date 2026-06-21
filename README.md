@@ -3,7 +3,7 @@
 WhatsApp Web API for Node.js. Fork dari [@blckrose/baileys](https://www.npmjs.com/package/@blckrose/baileys) dengan penambahan fitur LID penuh, semua tipe button dan interactive message, rich messages, decrypt handler, dan perbaikan CJS compatibility.
 
 [![npm](https://img.shields.io/npm/v/hiura-baileys?style=flat-square)](https://npmjs.com/package/hiura-baileys)
-[![node](https://img.shields.io/badge/node-%3E%3D20-brightgreen?style=flat-square)](https://nodejs.org)
+[![node](https://img.shields.io/badge/node-%3E%3D20.19-brightgreen?style=flat-square)](https://nodejs.org)
 [![license](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 
 ---
@@ -19,12 +19,20 @@ WhatsApp Web API for Node.js. Fork dari [@blckrose/baileys](https://www.npmjs.co
 
 ## Persyaratan
 
-- Node.js >= 20
+- Node.js >= 20.19.0 atau >= 22.12.0 (lihat penjelasan di bawah)
 - npm atau yarn
 
 ```bash
 npm install hiura-baileys
 ```
+
+> **Kenapa versi Node sespesifik ini?** Sejak v1.5.1, CJS entry point
+> (`index.cjs`) memakai `require(esm)` native Node untuk meng-load
+> `lib/index.js` (ESM) secara sinkron — fitur ini baru stabil tanpa
+> flag sejak Node v20.19.0 dan v22.12.0. Kalau Node Anda lebih lama
+> dari itu (termasuk semua versi 21.x), `require('hiura-baileys')`
+> akan langsung gagal dengan pesan error yang menjelaskan versi
+> minimum yang dibutuhkan. Cek versi Node Anda: `node -v`.
 
 Untuk fitur media (thumbnail, image processing):
 ```bash
@@ -67,7 +75,11 @@ const {
 } = require('hiura-baileys');
 ```
 
-Semua 317 export tersedia di CJS maupun ESM. Tidak perlu `await ready` atau top-level await khusus — cukup `await useMultiFileAuthState()` dan semua siap digunakan.
+Semua 317 export tersedia langsung di CJS maupun ESM, secara sinkron —
+tidak perlu `await ready`, tidak perlu `await useMultiFileAuthState()`
+duluan, tidak ada lagi konsep "belum siap". `require('hiura-baileys')`
+langsung mengembalikan semua export seketika, persis seperti module CJS
+biasa (sejak v1.5.1, lihat [Changelog](#changelog)).
 
 ---
 
@@ -1467,9 +1479,21 @@ await sock.sendMessage(groupJid, {
 - Jangan jalankan dua instance dengan folder session yang sama
 - Hapus folder session lalu scan ulang: `rm -rf ./sessions`
 
-**CJS `require()` hasilnya undefined**
+**CJS `require()` gagal / error `ERR_REQUIRE_ESM`**
 
-Pastikan pakai `await` sebelum akses konstanta enum pertama kali, atau gunakan `require('hiura-baileys').ready.then(...)`. Paling gampang: `await useMultiFileAuthState()` sudah cukup untuk memastikan semua siap.
+Sejak v1.5.1, ini berarti Node.js Anda lebih lama dari v20.19.0 atau
+v22.12.0 — `require(esm)` belum tersedia secara native di versi Anda.
+Error yang muncul akan menyebutkan versi Node Anda saat ini dan
+minimum yang dibutuhkan. Solusinya: upgrade Node.js (`nvm install 22`
+atau setara). Tidak ada workaround lain — fitur ini butuh dukungan
+langsung dari Node.js itu sendiri, bukan sesuatu yang bisa di-polyfill.
+
+Kalau Anda masih di v1.5.0 ke bawah dan belum sempat update package
+ini: pastikan pakai `await` sebelum akses konstanta enum pertama kali,
+atau gunakan `require('hiura-baileys').ready.then(...)`. Paling
+gampang: `await useMultiFileAuthState()` sudah cukup untuk memastikan
+semua siap di versi lama itu. (Workaround ini tidak diperlukan lagi di
+v1.5.1+.)
 
 **Error `sharp` saat sendMessage album/stickerPack**
 
@@ -1478,6 +1502,13 @@ Install sharp: `npm install sharp`
 ---
 
 ## Changelog
+
+### v1.5.1
+- **CJS entry point ditulis ulang total** (`index.cjs`): sebelumnya pakai dynamic `import()` + lazy getter, di mana konstanta non-fungsi (`proto`, `BufferJSON`, `DisconnectReason`, dst) baru tersedia setelah ada fungsi yang sempat di-`await` duluan — kalau destructure di baris paling atas file, error "belum siap". Sekarang pakai `require(esm)` native Node (stabil sejak v20.19.0/v22.12.0) untuk load `lib/index.js` secara sinkron penuh, persis seperti CJS biasa.
+- Syarat Node.js naik jadi `>=20.19.0 <21.0.0 || >=22.12.0` (sebelumnya cuma cek major version `>=20`, yang tidak cukup ketat — Node 20.0–20.18 dan semua versi 21.x sebenarnya tidak didukung).
+- `engine-requirements.js` sekarang mengecek minor version juga, bukan cuma major, dengan pesan error yang lebih jelas.
+- Tambah `buttonsMessage.locationMessage` sebagai header interactive — kirim tombol dengan lokasi sebagai media header (`{ location: {...}, buttons: [...] }`), beda dari `locationMessage` biasa yang berdiri sendiri.
+- `nativeFlowInfo` di tombol legacy (`buttonId`/`buttonText`) sekarang dipertahankan saat dikonversi ke `buttonsMessage`, jadi bisa campur tombol `quick_reply` biasa dengan `cta_url`/`cta_call` dalam satu pesan format lama.
 
 ### v1.5.0
 - Port `decryptEventEdit`, `decryptComment`, `decryptReaction` dan handler otomatisnya di processMessage
