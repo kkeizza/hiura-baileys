@@ -57,6 +57,41 @@ try {
       `Error asli dari Node: ${err.message}`
     );
   }
+
+  if (err && err.code === 'ERR_REQUIRE_ASYNC_MODULE') {
+    // Ini berarti ADA file di dependency graph yang punya top-level
+    // await (bukan lib/index.js sendiri — itu sudah diverifikasi tidak
+    // punya — tapi salah satu paket yang di-import olehnya). Daripada
+    // user harus akses terminal manual untuk pakai flag
+    // --experimental-print-required-tla, kita jalankan diagnosis itu
+    // sendiri lewat child process, supaya nama file yang sebenarnya
+    // bermasalah otomatis tercetak di log startup biasa.
+    let diag = null;
+    try {
+      const { spawnSync } = require('child_process');
+      const result = spawnSync(
+        process.execPath,
+        ['--experimental-print-required-tla', '-e', `require(${JSON.stringify(require.resolve('./lib/index.js'))})`],
+        { encoding: 'utf8', timeout: 15000 }
+      );
+      diag = (result.stderr || result.stdout || '').trim();
+    } catch {
+      // Diagnosis otomatis gagal dijalankan (mis. spawnSync diblokir di
+      // environment ini) — tidak masalah, tetap lanjut ke pesan error
+      // di bawah dengan diag = null.
+    }
+
+    throw new Error(
+      `[hiura-baileys] require() gagal: ada file di dependency graph yang punya top-level await ` +
+      `(ERR_REQUIRE_ASYNC_MODULE). lib/index.js milik package ini sendiri SUDAH diverifikasi tidak ` +
+      `punya top-level await — kemungkinan besar salah satu dependency (mis. paket WASM/native binding) ` +
+      `yang jadi sumbernya.\n\n` +
+      `=== Diagnosis otomatis (--experimental-print-required-tla) ===\n${diag || '(diagnosis gagal dijalankan, lihat error asli di bawah)'}\n` +
+      `===============================================================\n\n` +
+      `Error asli dari Node: ${err.message}`
+    );
+  }
+
   throw err;
 }
 

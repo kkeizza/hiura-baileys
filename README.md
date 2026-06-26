@@ -1,6 +1,6 @@
 # hiura-baileys
 
-WhatsApp Web API for Node.js. Fork dari [@blckrose/baileys](https://www.npmjs.com/package/@blckrose/baileys) dengan penambahan fitur LID penuh, semua tipe button dan interactive message, rich messages, decrypt handler, dan perbaikan CJS compatibility.
+WhatsApp Web API for Node.js. Fork dari [@blckrose/baileys](https://www.npmjs.com/package/@blckrose/baileys) dengan penambahan fitur LID penuh, semua tipe button dan interactive message, rich messages, decrypt handler, VoIP (panggilan suara), dan perbaikan CJS compatibility.
 
 [![npm](https://img.shields.io/npm/v/hiura-baileys?style=flat-square)](https://npmjs.com/package/hiura-baileys)
 [![node](https://img.shields.io/badge/node-%3E%3D20.19-brightgreen?style=flat-square)](https://nodejs.org)
@@ -415,6 +415,103 @@ await sock.sendMessage(jid, {
         time: Date.now() + 3600000
     }
 });
+```
+
+---
+
+## VoIP (Panggilan Suara)
+
+`hiura-baileys` menyertakan modul VoIP lengkap (`lib/Voip/`) yang memungkinkan
+bot melakukan dan menangani **panggilan suara WhatsApp** secara programatik.
+
+> **⚠️ Persyaratan tambahan:** VoIP membutuhkan `@roamhq/wrtc` (WebRTC native
+> addon, perlu compiler C++) dan berjalan di lingkungan Node.js desktop/server
+> dengan akses ke library WebRTC native. Tidak akan berfungsi di shared hosting
+> tanpa toolchain build (mis. Pterodactyl tanpa compiler).
+
+```bash
+npm install @roamhq/wrtc
+```
+
+### Setup VoipClient
+
+```js
+import { VoipClient } from 'hiura-baileys/lib/Voip/index.js';
+// atau CJS:
+const { VoipClient } = require('hiura-baileys/lib/Voip/index.js');
+
+const voip = new VoipClient(sock, creds);
+
+// Wajib: connect dulu sebelum bisa melakukan/menerima panggilan
+await voip.connect();
+```
+
+### Melakukan Panggilan
+
+```js
+// Panggilan suara ke nomor WA
+const call = await voip.call('628xxxxxxxxx@s.whatsapp.net', {
+    audio: true,   // aktifkan audio (default: true)
+    video: false,  // video call (default: false)
+});
+
+// Event saat panggilan diangkat
+call.on('accepted', () => {
+    console.log('Panggilan diterima!');
+});
+
+// Event saat panggilan berakhir
+call.on('ended', (reason) => {
+    console.log('Panggilan berakhir:', reason);
+});
+
+// Event error
+call.on('error', (err) => {
+    console.error('VoIP error:', err);
+});
+
+// Akhiri panggilan manual
+call.end();
+
+// Mute/unmute mikrofon
+call.mute(true);   // mute
+call.mute(false);  // unmute
+```
+
+### Streaming Audio ke Panggilan
+
+```js
+import { readFileSync } from 'fs';
+
+const call = await voip.call('628xxxxxxxxx@s.whatsapp.net');
+
+call.on('accepted', () => {
+    // Stream file audio (PCM/WAV) ke dalam panggilan
+    const audioBuffer = readFileSync('./audio.wav');
+    call.sendAudio(audioBuffer);
+});
+```
+
+### Menangani Panggilan Masuk
+
+```js
+// Tangani lewat event 'call' bawaan Baileys
+sock.ev.on('call', async ([callEvent]) => {
+    if (callEvent.status === 'offer') {
+        // Tolak panggilan masuk
+        await sock.rejectCall(callEvent.id, callEvent.from);
+
+        // Atau: jawab lewat VoipClient
+        // const activeCall = await voip.accept(callEvent);
+    }
+});
+```
+
+### Disconnect VoIP
+
+```js
+// Tutup koneksi VoIP saat bot shutdown
+voip.disconnect();
 ```
 
 ---
@@ -1507,6 +1604,8 @@ Install sharp: `npm install sharp`
 - **CJS entry point ditulis ulang total** (`index.cjs`): sebelumnya pakai dynamic `import()` + lazy getter, di mana konstanta non-fungsi (`proto`, `BufferJSON`, `DisconnectReason`, dst) baru tersedia setelah ada fungsi yang sempat di-`await` duluan — kalau destructure di baris paling atas file, error "belum siap". Sekarang pakai `require(esm)` native Node (stabil sejak v20.19.0/v22.12.0) untuk load `lib/index.js` secara sinkron penuh, persis seperti CJS biasa.
 - Syarat Node.js naik jadi `>=20.19.0 <21.0.0 || >=22.12.0` (sebelumnya cuma cek major version `>=20`, yang tidak cukup ketat — Node 20.0–20.18 dan semua versi 21.x sebenarnya tidak didukung).
 - `engine-requirements.js` sekarang mengecek minor version juga, bukan cuma major, dengan pesan error yang lebih jelas.
+- **Auto-diagnosis `ERR_REQUIRE_ASYNC_MODULE`**: kalau `require(esm)` gagal karena ADA file di dependency graph yang punya top-level await (bukan `lib/index.js` sendiri, tapi salah satu dependency-nya), `index.cjs` sekarang otomatis menjalankan diagnosis `--experimental-print-required-tla` lewat child process dan mencetak nama file/baris yang jadi sumbernya langsung di error log — tidak perlu akses terminal manual untuk pakai flag itu sendiri.
+- **VoIP (panggilan suara)**: tambah modul `lib/Voip/` lengkap — `VoipClient` (connect, call, disconnect), `ActiveCall` (events: accepted/ended/error, mute, sendAudio), streaming audio ke dalam panggilan aktif, dan WASM engine WhatsApp di `lib/assets/wasm/`. Membutuhkan `@roamhq/wrtc` untuk berfungsi.
 - Tambah `buttonsMessage.locationMessage` sebagai header interactive — kirim tombol dengan lokasi sebagai media header (`{ location: {...}, buttons: [...] }`), beda dari `locationMessage` biasa yang berdiri sendiri.
 - `nativeFlowInfo` di tombol legacy (`buttonId`/`buttonText`) sekarang dipertahankan saat dikonversi ke `buttonsMessage`, jadi bisa campur tombol `quick_reply` biasa dengan `cta_url`/`cta_call` dalam satu pesan format lama.
 

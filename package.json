@@ -41,7 +41,14 @@
                 "default": "./index.cjs"
             },
             "default": "./lib/index.js"
-        }
+        },
+        "./voip": {
+            "import": "./lib/Voip/index.mjs",
+            "require": "./lib/Voip/index.js",
+            "default": "./lib/Voip/index.mjs"
+        },
+        "./lib/Voip/index.mjs": "./lib/Voip/index.mjs",
+        "./lib/Voip/index.js": "./lib/Voip/index.js"
     },
     "files": [
         "lib/**/*",
